@@ -412,7 +412,9 @@ def _apply(pert: dict, target: Path) -> None:
         col = pert.get("column")
         op = pert["op"]
         n = len(df) if pert.get("rows", "all") == "all" else min(len(df), int(pert["rows"]))
-        if op == "drop":
+        if op == "duplicate":
+            df = pd.concat([df, df.head(n if pert.get("rows", "all") != "all" else len(df))], ignore_index=True)
+        elif op == "drop":
             if col in df.columns:
                 df = df.drop(columns=[col])
         elif op == "empty":

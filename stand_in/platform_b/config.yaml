@@ -1,0 +1,28 @@
+seed: 20240611
+
+paths:
+  raw_dir: data/raw
+  output_dir: outputs
+  new_admissions_csv: data/new_admissions.csv
+
+synthetic:
+  n_patients: 2500
+  n_new_patients: 300
+  start_date: "2021-01-01"
+  end_date: "2024-12-31"
+
+cohort:
+  horizon_days: 30
+
+features:
+  prior_admission_lookback_days: 365
+
+split:
+  test_fraction: 0.25
+
+model:
+  type: random_forest
+  n_estimators: 200
+  max_depth: 8
+  min_samples_leaf: 20
+  decision_threshold: 0.35

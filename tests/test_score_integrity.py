@@ -37,3 +37,19 @@ def test_integrity_compare():
     assert integrity.compare(a, dict(a))["unchanged"]
     c = integrity.compare(a, {"x": "1", "y": "3", "z": "4"})
     assert c["changed"] == ["y"] and c["added"] == ["z"] and not c["unchanged"]
+
+
+def test_perturbation_ops(tmp_path):
+    import pandas as pd
+    from mlaudit import dynamic
+    p = tmp_path / "x.csv"
+    base = pd.DataFrame({"id": ["a", "b", "c"], "t": [37.0, 38.0, 39.0], "v": [1.0, 2.0, 3.0]})
+    base.to_csv(p, index=False)
+    dynamic._apply({"op": "duplicate", "rows": 2}, p)
+    assert list(pd.read_csv(p)["id"]) == ["a", "b", "c", "a", "b"]
+    base.to_csv(p, index=False)
+    dynamic._apply({"op": "c_to_f", "column": "t"}, p)
+    assert pd.read_csv(p)["t"].round(1).tolist() == [98.6, 100.4, 102.2]
+    base.to_csv(p, index=False)
+    dynamic._apply({"op": "set", "column": "v", "value": "pending", "rows": 1}, p)
+    assert pd.read_csv(p, dtype=str)["v"].tolist() == ["pending", "2.0", "3.0"]

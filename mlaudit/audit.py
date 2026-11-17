@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-from . import baseline, codebase, deps, dynamic, integrity, mutation, static
+from . import baseline, codebase, deps, dynamic, integrity, mutation, static, vulns
 from .findings import Finding, number
 
 REPO = Path(__file__).resolve().parents[1]
@@ -32,7 +32,8 @@ def _versions() -> dict:
     return out
 
 
-def audit(target_file: Path, out_dir: Path, python: str, n_mutants: int, work_root: Path | None) -> dict:
+def audit(target_file: Path, out_dir: Path, python: str, n_mutants: int, work_root: Path | None,
+          vuln_python: str | None = None) -> dict:
     T = yaml.safe_load(target_file.read_text())
     root = (target_file.parent / T["root"]).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -50,6 +51,9 @@ def audit(target_file: Path, out_dir: Path, python: str, n_mutants: int, work_ro
                                   bool(T["schema"].get("patient_col")) and T["schema"].get("patient_col") != T["schema"].get("record_col"))
     dep_findings, report["dependencies"] = deps.run_deps(cb)
     findings += dep_findings
+    if vuln_python:
+        vf, report["vulnerabilities"] = vulns.run_vulns(root, vuln_python)
+        findings += vf
 
     # 2. dynamic checks in disposable copies
     work = Path(tempfile.mkdtemp(prefix=f"mlaudit-{T['name']}-", dir=work_root))
@@ -108,8 +112,9 @@ def main(argv=None) -> None:
     ap.add_argument("--python", default=sys.executable)
     ap.add_argument("--mutants", type=int, default=30)
     ap.add_argument("--work-root", type=Path, default=None)
+    ap.add_argument("--vuln-python", default=None, help="interpreter with pip-audit; omit to skip the network scan")
     a = ap.parse_args(argv)
-    rep = audit(a.target, a.out, a.python, a.mutants, a.work_root)
+    rep = audit(a.target, a.out, a.python, a.mutants, a.work_root, a.vuln_python)
     print(json.dumps({"target": rep["target"], "findings": rep["finding_counts"], "integrity_unchanged": rep["integrity"]["unchanged"],
                       "seconds": rep["seconds"]}))
 

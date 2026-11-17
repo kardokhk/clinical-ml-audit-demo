@@ -1,0 +1,41 @@
+# Written from stand_in/platform_b/README.md only.
+name: platform_b
+root: ../stand_in/platform_b
+package: readmit
+config_files: [config.yaml]
+data_dir: data
+timeout: 900
+commands:
+  generate: "{python} -m readmit generate"
+  pipeline: "{python} -m readmit train"
+  predict: "{python} -m readmit predict --input {input} --output {output}"
+  tests_quick: "{python} -m pytest -q -x -p no:cacheprovider tests"
+schema:
+  patient_col: patient_id
+  record_col: admission_id
+  target_col: readmit_30d
+outputs:
+  split: {path: outputs/split_assignment.csv, id_col: admission_id, group_col: patient_id, set_col: split, train_value: train, test_value: test}
+  predictions: {path: outputs/predictions_test.csv, id_col: admission_id, group_col: patient_id, label_col: readmit_30d, score_col: y_prob, alert_col: y_pred}
+  metrics:
+    path: outputs/metrics.json
+    map: {auroc: auroc, auprc: auprc, brier: brier, sensitivity: sensitivity, specificity: specificity, n: n_test, threshold: threshold}
+  compare_on_rerun: [outputs/split_assignment.csv, outputs/features.csv, outputs/predictions_test.csv, outputs/metrics.json]
+temporal:
+  anchor: {path: data/raw/discharges.csv, id_col: admission_id, time_col: discharge_time}
+  tables:
+    - {path: data/raw/labs.csv, id_col: admission_id, time_col: charted_time}
+inference:
+  adapter: adapters/readmit.py
+  output: {id_col: admission_id, score_col: y_prob}
+  perturbations:
+    - {name: fahrenheit, column: temperature_max_c, op: c_to_f, description: "temperature sent in Fahrenheit"}
+    - {name: creatinine_umol, column: creatinine_last, op: scale, value: 88.4, description: "creatinine sent in umol/L instead of mg/dL"}
+    - {name: hemoglobin_g_l, column: hemoglobin_last, op: scale, value: 10, description: "hemoglobin sent in g/L instead of g/dL"}
+    - {name: negative_age, column: age_years, op: set, value: -5, rows: 20, description: "negative age"}
+    - {name: text_in_lab, column: sodium_last, op: set, value: pending, rows: 20, description: "text in a numeric lab field"}
+    - {name: missing_column, column: age_years, op: drop, description: "required column missing"}
+    - {name: unknown_ward, column: ward, op: set, value: icu, rows: 20, description: "unknown ward category"}
+    - {name: missing_required, column: length_of_stay_days, op: nan, rows: 20, description: "missing value in a required field"}
+    - {name: duplicate_ids, op: duplicate, rows: 5, description: "duplicate admission ids", severity_if_silent: High}
+    - {name: missing_lab, column: creatinine_last, op: nan, rows: 20, description: "missing lab value (allowed)", expected: score}
