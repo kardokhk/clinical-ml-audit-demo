@@ -1,0 +1,37 @@
+name: platform_a
+root: ../stand_in/platform_a
+package: wardwatch
+config_files: [config.yaml]
+data_dir: data
+timeout: 900
+commands:
+  generate: "{python} -m wardwatch generate --config config.yaml"
+  pipeline: "{python} -m wardwatch train --config config.yaml"
+  predict: "{python} -m wardwatch predict --config config.yaml --input-dir {input} --output {output}"
+  tests_quick: "{python} -m pytest -q -x -p no:cacheprovider"
+schema:
+  patient_col: patient_id
+  record_col: admission_id
+  target_col: deteriorated_48h
+outputs:
+  split: {path: outputs/split.csv, id_col: admission_id, group_col: patient_id, set_col: split, train_value: train, test_value: test}
+  predictions: {path: outputs/test_predictions.csv, id_col: admission_id, label_col: label, score_col: risk_score, alert_col: alert}
+  metrics:
+    path: outputs/metrics.json
+    map: {auroc: auroc, auprc: auprc, brier: brier, sensitivity: sensitivity, specificity: specificity, n: n_test, threshold: threshold}
+  compare_on_rerun: [outputs/split.csv, outputs/test_predictions.csv, outputs/metrics.json]
+temporal:
+  anchor: {path: data/admissions.csv, id_col: admission_id, time_col: prediction_time}
+  tables:
+    - {path: data/vitals.csv, id_col: admission_id, time_col: charttime}
+    - {path: data/labs.csv, id_col: admission_id, time_col: charttime}
+inference:
+  adapter: adapters/wardwatch.py
+  output: {id_col: admission_id, score_col: risk_score}
+  perturbations:
+    - {name: fahrenheit, file: vitals.csv, column: temp_c, op: c_to_f, description: "temperature sent in Fahrenheit"}
+    - {name: negative_heart_rate, file: vitals.csv, column: heart_rate, op: set, value: -40, rows: 50, description: "negative heart rate"}
+    - {name: text_in_lab, file: labs.csv, column: lactate, op: set, value: pending, rows: 50, description: "text in a numeric lab field"}
+    - {name: missing_column, file: vitals.csv, column: spo2, op: drop, description: "required column missing"}
+    - {name: creatinine_mg_dl, file: labs.csv, column: creatinine, op: scale, value: 0.0113, description: "creatinine sent in mg/dL instead of umol/L"}
+    - {name: missing_values, file: labs.csv, column: lactate, op: nan, rows: 50, description: "missing lab values", severity_if_silent: Low}

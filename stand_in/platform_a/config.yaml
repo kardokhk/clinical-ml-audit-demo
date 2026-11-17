@@ -1,0 +1,14 @@
+seed: 20261117
+paths:
+  data_dir: data
+  output_dir: outputs
+data:
+  n_patients: 1500
+split:
+  test_size: 0.25
+model:
+  max_iter: 200
+  learning_rate: 0.05
+  max_leaf_nodes: 15
+  max_features: 0.8
+  alert_threshold: 0.30
