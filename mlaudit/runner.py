@@ -26,7 +26,9 @@ class RunResult:
         return self.returncode == 0
 
     def brief(self) -> dict:
-        return {"name": self.name, "command": self.command, "returncode": self.returncode,
+        cmd = self.command.split(" ", 1)
+        shown = "python " + cmd[1] if len(cmd) > 1 and cmd[0].endswith(("python", "python3")) else self.command
+        return {"name": self.name, "command": shown, "returncode": self.returncode,
                 "seconds": round(self.seconds, 1),
                 "stderr_tail": self.stderr.strip().splitlines()[-6:]}
 
