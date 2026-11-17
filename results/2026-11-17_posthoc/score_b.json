@@ -1,0 +1,519 @@
+{
+  "planted": 16,
+  "detected": 12,
+  "detected_located": 6,
+  "baseline_detected": 2,
+  "critical_high_planted": 9,
+  "critical_high_detected": 8,
+  "findings_total": 42,
+  "findings_unmatched": [
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F13",
+    "F14",
+    "F16",
+    "F17",
+    "F19",
+    "F22",
+    "F23",
+    "F26",
+    "F27",
+    "F28",
+    "F29",
+    "F30",
+    "F31",
+    "F32",
+    "F33",
+    "F35",
+    "F36",
+    "F37",
+    "F38",
+    "F39",
+    "F40",
+    "F41",
+    "F42"
+  ],
+  "by_category": {
+    "leakage": {
+      "planted": 3,
+      "detected": 2,
+      "baseline": 1
+    },
+    "execution_integrity": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "failure_handling": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 1
+    },
+    "reproducibility": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "dependency": {
+      "planted": 2,
+      "detected": 1,
+      "baseline": 0
+    },
+    "testing": {
+      "planted": 2,
+      "detected": 1,
+      "baseline": 0
+    },
+    "integration": {
+      "planted": 3,
+      "detected": 2,
+      "baseline": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "B01",
+      "category": "leakage",
+      "intended_severity": "Critical",
+      "how_detectable": "code_review",
+      "file": "readmit/features.py",
+      "lines": [
+        30,
+        30
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F01",
+      "finding_check": "patient_overlap",
+      "finding_severity": "Critical",
+      "finding_title": "Patients appear in both the training and the test set",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "prior_admissions_365d counts every other admission of the patient whose admit_time is after the lookback start, including admissions that occur after the index discharge, instead of only admissions that ended before the index admission began. The 30-day readmission itself is counted in the feature, so the label leaks into the features and reported discrimination is inflated while live scoring (where future admissions are unknown) cannot reproduce it."
+    },
+    {
+      "id": "B02",
+      "category": "leakage",
+      "intended_severity": "High",
+      "how_detectable": "code_review",
+      "file": "readmit/features.py",
+      "lines": [
+        38,
+        38
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F02",
+      "finding_check": "temporal_leakage",
+      "finding_severity": "Critical",
+      "finding_title": "Performance depends on data recorded after the prediction time",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The lab window has a lower bound at admit_time but no upper bound at the prediction time, so follow-up creatinine charted days after discharge (and correlated with the later readmission) becomes creatinine_last. Features use information unavailable at discharge, inflating test performance relative to deployment."
+    },
+    {
+      "id": "B03",
+      "category": "leakage",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "readmit/split.py",
+      "lines": [
+        16,
+        23
+      ],
+      "detected_located": false,
+      "detected": false,
+      "match_type": null,
+      "finding_id": null,
+      "finding_check": null,
+      "finding_severity": null,
+      "finding_title": null,
+      "baseline_detected": true,
+      "baseline_rule": "ruff:RUF046",
+      "description": "The split samples admission ids rather than patient ids, so admissions of the same patient land in both train and test despite the documented patient-level split. Patient-level information leaks across the split and the held-out estimate is optimistic."
+    },
+    {
+      "id": "B04",
+      "category": "execution_integrity",
+      "intended_severity": "Critical",
+      "how_detectable": "dynamic",
+      "file": "readmit/pipeline.py",
+      "lines": [
+        91,
+        91
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F12",
+      "finding_check": "metrics_not_reproducible",
+      "finding_severity": "High",
+      "finding_title": "Reported metrics cannot be reproduced from the saved test predictions",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "metrics.json is computed from the in-memory scored frame that holds train and test rows, not from the saved predictions_test.csv. Reported AUROC, AUPRC, Brier and threshold metrics mostly reflect training data, and n_test does not match the predictions file row count."
+    },
+    {
+      "id": "B05",
+      "category": "execution_integrity",
+      "intended_severity": "High",
+      "how_detectable": "static",
+      "file": "readmit/inference.py",
+      "lines": [
+        32,
+        32
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F03",
+      "finding_check": "train_serve_skew",
+      "finding_severity": "Critical",
+      "finding_title": "The inference path gives different scores from the validated pipeline",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The inference reader replaces missing lab values with 0.0 before the saved pipeline sees them, whereas training leaves them missing for the pipeline's median imputer and missingness indicator. Serving preprocessing differs from training (zeros are then clipped to the range floor), so scores for patients with missing labs are systematically wrong."
+    },
+    {
+      "id": "B06",
+      "category": "failure_handling",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "readmit/inference.py",
+      "lines": [
+        56,
+        61
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F15",
+      "finding_check": "broad_except",
+      "finding_severity": "High",
+      "finding_title": "Broad exception handler continues silently",
+      "baseline_detected": true,
+      "baseline_rule": "ruff:BLE001",
+      "description": "A broad except around validation and scoring replaces any failure (unknown category, missing column, non-numeric value) with the training prevalence for every row in the batch and only logs a warning. Invalid input silently yields low-risk scores for the whole batch instead of the documented error."
+    },
+    {
+      "id": "B07",
+      "category": "failure_handling",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "readmit/features.py",
+      "lines": [
+        86,
+        87
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F04",
+      "finding_check": "silent_bad_input",
+      "finding_severity": "Critical",
+      "finding_title": "Bad input scored silently: temperature sent in Fahrenheit",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Out-of-range numeric values are clipped to the allowed range instead of raising, contrary to the documented contract. A Fahrenheit temperature, an age of 4 or a creatinine in umol/L is silently coerced to a boundary value and scored."
+    },
+    {
+      "id": "B08",
+      "category": "reproducibility",
+      "intended_severity": "Medium",
+      "how_detectable": "dynamic",
+      "file": "readmit/model.py",
+      "lines": [
+        37,
+        43
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F18",
+      "finding_check": "unseeded_estimator",
+      "finding_severity": "High",
+      "finding_title": "`RandomForestClassifier` has no random_state",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The random forest is built without random_state although the seed is passed in and recorded in the model card. Retraining on identical inputs gives different predictions and metrics on every run."
+    },
+    {
+      "id": "B09",
+      "category": "reproducibility",
+      "intended_severity": "Low",
+      "how_detectable": "dynamic",
+      "file": "readmit/synth.py",
+      "lines": [
+        183,
+        183
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F24",
+      "finding_check": "unseeded_random",
+      "finding_severity": "Medium",
+      "finding_title": "Global NumPy random state used without a seed",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Lab chart-time jitter uses the unseeded global numpy generator instead of the seeded instance generator. The synthetic extract (labs.csv and everything derived from it) differs between runs with the same seed."
+    },
+    {
+      "id": "B10",
+      "category": "dependency",
+      "intended_severity": "Low",
+      "how_detectable": "static",
+      "file": "requirements.txt",
+      "lines": [
+        4,
+        4
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F25",
+      "finding_check": "unpinned_dependency",
+      "finding_severity": "Medium",
+      "finding_title": "`scikit-learn` is not pinned to an exact version",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "scikit-learn is range-pinned (>=1.3) instead of pinned exactly. A fresh install can pull a different release whose estimator defaults or pickle format differ, changing results or breaking model loading."
+    },
+    {
+      "id": "B11",
+      "category": "dependency",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "requirements.txt",
+      "lines": [
+        1,
+        5
+      ],
+      "detected_located": false,
+      "detected": false,
+      "match_type": null,
+      "finding_id": null,
+      "finding_check": null,
+      "finding_severity": null,
+      "finding_title": null,
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "PyYAML is imported by readmit/config.py and the tests but is absent from requirements.txt. Installing from requirements.txt into a clean environment leaves every command failing at import."
+    },
+    {
+      "id": "B12",
+      "category": "testing",
+      "intended_severity": "Medium",
+      "how_detectable": "code_review",
+      "file": "tests/test_split.py",
+      "lines": [
+        27,
+        30
+      ],
+      "detected_located": false,
+      "detected": false,
+      "match_type": null,
+      "finding_id": null,
+      "finding_check": null,
+      "finding_severity": null,
+      "finding_title": null,
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The patient-overlap test asserts that each patient has at least one split, which is always true, instead of exactly one. The test cannot fail and hides the admission-level split (B03)."
+    },
+    {
+      "id": "B13",
+      "category": "testing",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "tests/test_features.py",
+      "lines": [
+        51,
+        56
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F34",
+      "finding_check": "skipped_test",
+      "finding_severity": "Medium",
+      "finding_title": "Test `test_validate_rejects_out_of_range` is skipped",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The out-of-range rejection test is skipped with a plausible reason. The suite passes while the validator clips instead of raising (B07)."
+    },
+    {
+      "id": "B14",
+      "category": "integration",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "readmit/inference.py",
+      "lines": [
+        41,
+        41
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F20",
+      "finding_check": "served_threshold_mismatch",
+      "finding_severity": "High",
+      "finding_title": "Served alerts do not use the threshold that was evaluated",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Training writes the threshold to the model card as decision_threshold, but the inference service reads the key threshold with a default of 0.5. Served y_pred uses 0.5 while evaluation and the README use 0.35, so flagged patients in production differ from the evaluated operating point."
+    },
+    {
+      "id": "B15",
+      "category": "integration",
+      "intended_severity": "High",
+      "how_detectable": "code_review",
+      "file": "readmit/features.py",
+      "lines": [
+        51,
+        51
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F21",
+      "finding_check": "config_key_missing",
+      "finding_severity": "High",
+      "finding_title": "Code reads config key `features.lookback_days`, which the config does not define",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "build_features reads features.lookback_days with a default of 90, while config.yaml defines features.prior_admission_lookback_days: 365. prior_admissions_365d is silently computed over 90 days in training, so the model is trained on a different definition from the documented 365-day inference input."
+    },
+    {
+      "id": "B16",
+      "category": "integration",
+      "intended_severity": "Low",
+      "how_detectable": "code_review",
+      "file": "readmit/pipeline.py",
+      "lines": [
+        34,
+        37
+      ],
+      "detected_located": false,
+      "detected": false,
+      "match_type": null,
+      "finding_id": null,
+      "finding_check": null,
+      "finding_severity": null,
+      "finding_title": null,
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "cohort.exclude_incomplete_followup exists and is unit-tested but the orchestrator never calls it, so admissions whose 30-day window runs past the end of the extract stay in the cohort. Those admissions are labelled as not readmitted regardless of outcome, adding label noise contrary to the README cohort definition."
+    }
+  ],
+  "clean_twin": {
+    "counts": {
+      "Critical": 0,
+      "High": 0,
+      "Medium": 13,
+      "Low": 2
+    },
+    "false_alarms_critical_high": 0,
+    "findings": [
+      {
+        "id": "F01",
+        "severity": "Medium",
+        "check": "silent_coerce",
+        "title": "Invalid values silently become missing"
+      },
+      {
+        "id": "F02",
+        "severity": "Medium",
+        "check": "unordered_listing",
+        "title": "File listing order is not fixed"
+      },
+      {
+        "id": "F03",
+        "severity": "Medium",
+        "check": "module_without_tests",
+        "title": "No test imports `readmit.cli`"
+      },
+      {
+        "id": "F04",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/cli.py"
+      },
+      {
+        "id": "F05",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/cohort.py"
+      },
+      {
+        "id": "F06",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/config.py"
+      },
+      {
+        "id": "F07",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/features.py"
+      },
+      {
+        "id": "F08",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/ingest.py"
+      },
+      {
+        "id": "F09",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/model.py"
+      },
+      {
+        "id": "F10",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/pipeline.py"
+      },
+      {
+        "id": "F11",
+        "severity": "Medium",
+        "check": "module_without_tests",
+        "title": "No test imports `readmit.schema`"
+      },
+      {
+        "id": "F12",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in readmit/schema.py"
+      },
+      {
+        "id": "F13",
+        "severity": "Medium",
+        "check": "config_key_missing",
+        "title": "Code reads config key `C`, which the config does not define"
+      },
+      {
+        "id": "F14",
+        "severity": "Low",
+        "check": "model_load_unverified",
+        "title": "Model artefact loaded without an integrity check"
+      },
+      {
+        "id": "F15",
+        "severity": "Low",
+        "check": "no_lock_file",
+        "title": "No lock file with hashes"
+      }
+    ]
+  },
+  "clean_twin_baseline_findings": 8,
+  "defective_baseline_findings": 9
+}

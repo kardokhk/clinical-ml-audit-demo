@@ -1,0 +1,950 @@
+{
+  "target": "platform_b",
+  "root": "../stand_in/platform_b",
+  "versions": {
+    "python": "3.11.18",
+    "numpy": "2.4.6",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "PyYAML": "6.0.3",
+    "joblib": "1.6.0",
+    "pytest": "9.2.0",
+    "coverage": "7.17.3",
+    "ruff": "0.17.5",
+    "bandit": "1.9.4"
+  },
+  "inventory": {
+    "files": [
+      {
+        "file": "readmit/__init__.py",
+        "is_test": false,
+        "code_lines": 2,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/__main__.py",
+        "is_test": false,
+        "code_lines": 3,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": true
+      },
+      {
+        "file": "readmit/cli.py",
+        "is_test": false,
+        "code_lines": 35,
+        "functions": 2,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/cohort.py",
+        "is_test": false,
+        "code_lines": 39,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/config.py",
+        "is_test": false,
+        "code_lines": 59,
+        "functions": 3,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "is_test": false,
+        "code_lines": 43,
+        "functions": 4,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/features.py",
+        "is_test": false,
+        "code_lines": 82,
+        "functions": 4,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/inference.py",
+        "is_test": false,
+        "code_lines": 60,
+        "functions": 5,
+        "classes": 2,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/ingest.py",
+        "is_test": false,
+        "code_lines": 96,
+        "functions": 7,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/model.py",
+        "is_test": false,
+        "code_lines": 91,
+        "functions": 7,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/pipeline.py",
+        "is_test": false,
+        "code_lines": 79,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/schema.py",
+        "is_test": false,
+        "code_lines": 69,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/split.py",
+        "is_test": false,
+        "code_lines": 19,
+        "functions": 1,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "readmit/synth.py",
+        "is_test": false,
+        "code_lines": 177,
+        "functions": 10,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "tests/conftest.py",
+        "is_test": true,
+        "code_lines": 48,
+        "functions": 3,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_cohort.py",
+        "is_test": true,
+        "code_lines": 26,
+        "functions": 4,
+        "classes": 0,
+        "test_functions": 4,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_features.py",
+        "is_test": true,
+        "code_lines": 42,
+        "functions": 9,
+        "classes": 0,
+        "test_functions": 8,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_ingest.py",
+        "is_test": true,
+        "code_lines": 39,
+        "functions": 6,
+        "classes": 0,
+        "test_functions": 6,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_model_and_eval.py",
+        "is_test": true,
+        "code_lines": 58,
+        "functions": 6,
+        "classes": 0,
+        "test_functions": 5,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_split.py",
+        "is_test": true,
+        "code_lines": 24,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 4,
+        "entry_point": false
+      }
+    ],
+    "source_files": 14,
+    "source_lines": 854,
+    "test_files": 6,
+    "test_lines": 237,
+    "test_functions": 27,
+    "entry_points": [
+      "readmit/__main__.py"
+    ],
+    "config_files": [
+      "config.yaml"
+    ],
+    "import_edges": [
+      [
+        "readmit.__main__",
+        "readmit.cli"
+      ],
+      [
+        "readmit.cli",
+        "readmit.config"
+      ],
+      [
+        "readmit.cli",
+        "readmit.pipeline"
+      ],
+      [
+        "readmit.cohort",
+        "readmit.schema"
+      ],
+      [
+        "readmit.evaluate",
+        "readmit.schema"
+      ],
+      [
+        "readmit.features",
+        "readmit.schema"
+      ],
+      [
+        "readmit.inference",
+        "readmit.features"
+      ],
+      [
+        "readmit.inference",
+        "readmit.model"
+      ],
+      [
+        "readmit.inference",
+        "readmit.schema"
+      ],
+      [
+        "readmit.ingest",
+        "readmit.schema"
+      ],
+      [
+        "readmit.model",
+        "readmit.schema"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.cohort"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.config"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.evaluate"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.features"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.inference"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.ingest"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.model"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.schema"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.split"
+      ],
+      [
+        "readmit.pipeline",
+        "readmit.synth"
+      ],
+      [
+        "readmit.split",
+        "readmit.schema"
+      ],
+      [
+        "readmit.synth",
+        "readmit.schema"
+      ]
+    ],
+    "parse_errors": []
+  },
+  "dependencies": {
+    "declaration_files": [
+      "requirements.txt"
+    ],
+    "lock_files": [],
+    "requirements": [
+      {
+        "name": "joblib",
+        "spec": "==1.6.0",
+        "file": "requirements.txt",
+        "line": 1,
+        "hashed": false
+      },
+      {
+        "name": "numpy",
+        "spec": "==2.4.6",
+        "file": "requirements.txt",
+        "line": 2,
+        "hashed": false
+      },
+      {
+        "name": "pandas",
+        "spec": "==3.1.1",
+        "file": "requirements.txt",
+        "line": 3,
+        "hashed": false
+      },
+      {
+        "name": "scikit-learn",
+        "spec": ">=1.3",
+        "file": "requirements.txt",
+        "line": 4,
+        "hashed": false
+      },
+      {
+        "name": "pytest",
+        "spec": "==9.2.0",
+        "file": "requirements.txt",
+        "line": 5,
+        "hashed": false
+      }
+    ],
+    "third_party_imports": [
+      "joblib",
+      "numpy",
+      "pandas",
+      "sklearn",
+      "yaml"
+    ]
+  },
+  "vulnerabilities": {
+    "scanned": [
+      "joblib==1.6.0",
+      "numpy==2.4.6",
+      "pandas==3.1.1",
+      "pytest==9.2.0"
+    ],
+    "not_scanned_unpinned": [
+      "scikit-learn"
+    ],
+    "date": "2026-11-17",
+    "tool": "pip-audit (PyPI/OSV advisory data)",
+    "status": "run",
+    "vulnerable_packages": 0
+  },
+  "runs": [
+    {
+      "name": "run1:generate",
+      "command": "python -m readmit generate",
+      "returncode": 0,
+      "seconds": 5.6,
+      "stderr_tail": [
+        "2026-11-17 17:25:08,032 INFO readmit.ingest: loaded 300 patients, 857 admissions, 7952 lab results",
+        "2026-11-17 17:25:08,037 INFO readmit.cohort: excluded 21 in-hospital deaths"
+      ]
+    },
+    {
+      "name": "run1:pipeline",
+      "command": "python -m readmit train",
+      "returncode": 0,
+      "seconds": 3.1,
+      "stderr_tail": [
+        "2026-11-17 17:25:09,611 INFO readmit.ingest: loaded 2500 patients, 7021 admissions, 65274 lab results",
+        "2026-11-17 17:25:09,629 INFO readmit.cohort: excluded 145 in-hospital deaths",
+        "2026-11-17 17:25:09,837 INFO readmit.pipeline: training on 5157 admissions from 2204 patients"
+      ]
+    },
+    {
+      "name": "run2:generate",
+      "command": "python -m readmit generate",
+      "returncode": 0,
+      "seconds": 5.7,
+      "stderr_tail": [
+        "2026-11-17 17:25:16,773 INFO readmit.ingest: loaded 300 patients, 857 admissions, 7952 lab results",
+        "2026-11-17 17:25:16,779 INFO readmit.cohort: excluded 21 in-hospital deaths"
+      ]
+    },
+    {
+      "name": "run2:pipeline",
+      "command": "python -m readmit train",
+      "returncode": 0,
+      "seconds": 3.1,
+      "stderr_tail": [
+        "2026-11-17 17:25:18,442 INFO readmit.ingest: loaded 2500 patients, 7021 admissions, 65274 lab results",
+        "2026-11-17 17:25:18,459 INFO readmit.cohort: excluded 145 in-hospital deaths",
+        "2026-11-17 17:25:18,668 INFO readmit.pipeline: training on 5157 admissions from 2204 patients"
+      ]
+    }
+  ],
+  "split": {
+    "n_train": 5157,
+    "n_test": 1719,
+    "n_groups": 2461,
+    "groups_in_both": 940
+  },
+  "metrics": {
+    "reported": {
+      "auroc": 0.8771362024479836,
+      "auprc": 0.6797825883281292,
+      "brier": 0.15005279936788132,
+      "sensitivity": 0.9496551724137932,
+      "specificity": 0.5423884998157021,
+      "n": 6876,
+      "threshold": 0.35
+    },
+    "recomputed": {
+      "auroc": 0.831361501964352,
+      "auprc": 0.5963083229301297,
+      "brier": 0.16100003065053056,
+      "n": 1719,
+      "events": 361,
+      "sensitivity_from_alerts": 0.9030470914127424,
+      "specificity_from_alerts": 0.5176730486008837,
+      "sensitivity_at_threshold": 0.9030470914127424,
+      "specificity_at_threshold": 0.5176730486008837
+    },
+    "pred_not_in_test": 0,
+    "test_not_in_pred": 0,
+    "alerts_inconsistent_with_reported_threshold": 0
+  },
+  "rerun": {
+    "hash_seeds": [
+      "0",
+      "1"
+    ],
+    "files": {
+      "data/": false,
+      "outputs/split_assignment.csv": true,
+      "outputs/features.csv": false,
+      "outputs/predictions_test.csv": false,
+      "outputs/metrics.json": false
+    },
+    "pred_rows_compared": 1719,
+    "pred_rows_changed": 1719,
+    "max_abs_score_change": 0.27414000000000005,
+    "auroc_run1": 0.8771362024479836,
+    "auroc_run2": 0.877339819769437
+  },
+  "temporal": {
+    "removed": {
+      "data/raw/labs.csv": {
+        "rows": 65274,
+        "after_prediction_time": 2058
+      }
+    },
+    "run": {
+      "name": "truncated:pipeline",
+      "command": "python -m readmit train",
+      "returncode": 0,
+      "seconds": 3.1,
+      "stderr_tail": [
+        "2026-11-17 17:25:21,848 INFO readmit.ingest: loaded 2500 patients, 7021 admissions, 63216 lab results",
+        "2026-11-17 17:25:21,867 INFO readmit.cohort: excluded 145 in-hospital deaths",
+        "2026-11-17 17:25:22,107 INFO readmit.pipeline: training on 5157 admissions from 2204 patients"
+      ]
+    },
+    "comparison": {
+      "n_common": 1719,
+      "auroc_a": 0.831361501964352,
+      "auroc_b": 0.8018992815734399,
+      "diff": 0.029462220390912064,
+      "ci95": [
+        0.01731724804756877,
+        0.041900200947037954
+      ],
+      "n_boot": 2000,
+      "n_groups": 1197,
+      "test_scores_changed": 1719
+    }
+  },
+  "inference": {
+    "perturbations": [
+      {
+        "name": "fahrenheit",
+        "description": "temperature sent in Fahrenheit",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1480,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "creatinine_umol",
+        "description": "creatinine sent in umol/L instead of mg/dL",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1591,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "hemoglobin_g_l",
+        "description": "hemoglobin sent in g/L instead of g/dL",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1485,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "negative_age",
+        "description": "negative age",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 18,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "text_in_lab",
+        "description": "text in a numeric lab field",
+        "outcome": "warned but scored",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1719,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "missing_column",
+        "description": "required column missing",
+        "outcome": "warned but scored",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1719,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "unknown_ward",
+        "description": "unknown ward category",
+        "outcome": "warned but scored",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1719,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "missing_required",
+        "description": "missing value in a required field",
+        "outcome": "warned but scored",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 1719,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "duplicate_ids",
+        "description": "duplicate admission ids",
+        "outcome": "rejected",
+        "returncode": 1,
+        "rows_out": null,
+        "scores_changed": null,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "missing_lab",
+        "description": "missing lab value (allowed)",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 1719,
+        "scores_changed": 19,
+        "expected": "score"
+      }
+    ],
+    "consistency": {
+      "n_compared": 1719,
+      "n_differ": 649,
+      "max_abs_diff": 0.20053500000000002,
+      "missing_from_served": 0,
+      "auroc_validated": 0.831361501964352,
+      "auroc_served": 0.8283772371786764
+    },
+    "served_alerts_vs_reported_threshold": {
+      "threshold": 0.35,
+      "n": 1719,
+      "disagree": 411
+    }
+  },
+  "tests": {
+    "run": {
+      "name": "tests",
+      "command": "python -m coverage run --source=readmit -m pytest -q -p no:cacheprovider -rs",
+      "returncode": 0,
+      "seconds": 9.1,
+      "stderr_tail": []
+    },
+    "summary": {
+      "passed": 26,
+      "skipped": 1
+    },
+    "coverage": {
+      "total": 86.81672025723472,
+      "files": {
+        "readmit/__init__.py": 100.0,
+        "readmit/__main__.py": 0.0,
+        "readmit/cli.py": 0.0,
+        "readmit/cohort.py": 96.66666666666667,
+        "readmit/config.py": 75.60975609756098,
+        "readmit/evaluate.py": 83.33333333333333,
+        "readmit/features.py": 94.91525423728814,
+        "readmit/inference.py": 85.96491228070175,
+        "readmit/ingest.py": 86.41975308641975,
+        "readmit/model.py": 91.66666666666667,
+        "readmit/pipeline.py": 100.0,
+        "readmit/schema.py": 100.0,
+        "readmit/split.py": 92.85714285714286,
+        "readmit/synth.py": 98.4
+      }
+    }
+  },
+  "mutation": {
+    "candidates": 109,
+    "run": 40,
+    "killed": 17,
+    "score": 0.425,
+    "seed": 20261117,
+    "mutants": [
+      {
+        "file": "readmit/config.py",
+        "line": 58,
+        "mutation": "Lt -> LtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/cli.py",
+        "line": 40,
+        "mutation": "2 -> 3",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 25,
+        "mutation": "Eq -> NotEq",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 33,
+        "mutation": "Add -> Sub",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 35,
+        "mutation": "Add -> Sub",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 30,
+        "mutation": "Add -> Sub",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 30,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/schema.py",
+        "line": 74,
+        "mutation": "45.0 -> 67.5",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 85,
+        "mutation": "Lt -> LtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/ingest.py",
+        "line": 108,
+        "mutation": "Lt -> LtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/cohort.py",
+        "line": 48,
+        "mutation": "LtE -> Lt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/cli.py",
+        "line": 35,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/schema.py",
+        "line": 70,
+        "mutation": "0.1 -> 0.15000000000000002",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 85,
+        "mutation": "Gt -> GtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 59,
+        "mutation": "Add -> Sub",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/features.py",
+        "line": 55,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/ingest.py",
+        "line": 46,
+        "mutation": "3 -> 4",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/schema.py",
+        "line": 46,
+        "mutation": "88.4 -> 132.60000000000002",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/config.py",
+        "line": 55,
+        "mutation": "LtE -> Lt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 69,
+        "mutation": "NotEq -> Eq",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/ingest.py",
+        "line": 27,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/ingest.py",
+        "line": 53,
+        "mutation": "5 -> 6",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 23,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/config.py",
+        "line": 55,
+        "mutation": "LtE -> Lt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/schema.py",
+        "line": 73,
+        "mutation": "200.0 -> 300.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 90,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 38,
+        "mutation": "200 -> 201",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 97,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/config.py",
+        "line": 58,
+        "mutation": "Lt -> LtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/pipeline.py",
+        "line": 26,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 26,
+        "mutation": "Eq -> NotEq",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 47,
+        "mutation": "2000 -> 2001",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 21,
+        "mutation": "NotEq -> Eq",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/pipeline.py",
+        "line": 86,
+        "mutation": "6 -> 7",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/evaluate.py",
+        "line": 21,
+        "mutation": "2 -> 3",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/pipeline.py",
+        "line": 87,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "readmit/cohort.py",
+        "line": 38,
+        "mutation": "Add -> Sub",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/pipeline.py",
+        "line": 60,
+        "mutation": "Add -> Sub",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/cohort.py",
+        "line": 33,
+        "mutation": "Eq -> NotEq",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "readmit/model.py",
+        "line": 97,
+        "mutation": "Div -> Mult",
+        "killed": true,
+        "returncode": 1
+      }
+    ]
+  },
+  "baseline": {
+    "ruff_findings": 9,
+    "bandit_findings": 0,
+    "ruff_rc": 0,
+    "bandit_rc": 0
+  },
+  "integrity": {
+    "files_before": 23,
+    "files_after": 23,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "unchanged": true
+  },
+  "seconds": 255.5,
+  "finding_counts": {
+    "Critical": 11,
+    "High": 10,
+    "Medium": 15,
+    "Low": 6
+  },
+  "n_findings": 42
+}

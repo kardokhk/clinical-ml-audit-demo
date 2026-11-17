@@ -1,0 +1,2561 @@
+{
+  "frozen_run": "2026-11-17_frozen",
+  "posthoc_run": "2026-11-17_posthoc",
+  "frozen_commit": "2f8a7842e800fe394527d3483c620e141cab730b",
+  "frozen": {
+    "platform_a": {
+      "finding_counts": {
+        "Critical": 6,
+        "High": 9,
+        "Medium": 13,
+        "Low": 5
+      },
+      "n_findings": 33,
+      "seconds": 128.9,
+      "files_hashed": 14,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 7,
+        "source_lines": 325,
+        "test_files": 4,
+        "test_functions": 8
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 3,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 9,
+        "skipped": 1
+      },
+      "coverage_total": 34.66135458167331,
+      "split": {
+        "n_train": 2436,
+        "n_test": 812,
+        "n_groups": 1500,
+        "groups_in_both": 484
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.9999679196859903,
+          "auprc": 0.9997701708847069,
+          "brier": 0.0003078663604636863,
+          "sensitivity": 0.9972826086956522,
+          "specificity": 1.0,
+          "n": 3248,
+          "threshold": 0.5
+        },
+        "recomputed": {
+          "auroc": 0.9999230532471529,
+          "auprc": 0.9994152046783624,
+          "brier": 0.001231433455237171,
+          "n": 812,
+          "events": 90,
+          "sensitivity_from_alerts": 0.9888888888888889,
+          "specificity_from_alerts": 1.0,
+          "sensitivity_at_threshold": 0.9888888888888889,
+          "specificity_at_threshold": 1.0
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split.csv": true,
+          "outputs/test_predictions.csv": false,
+          "outputs/metrics.json": false
+        },
+        "pred_rows_compared": 812,
+        "pred_rows_changed": 233,
+        "max_abs_score_change": 2.6100400505435495e-05,
+        "auroc_run1": 0.9999679196859903,
+        "auroc_run2": 0.9999679196859903
+      },
+      "temporal": {
+        "n_common": 812,
+        "auroc_a": 0.9999230532471529,
+        "auroc_b": 0.7795629424438288,
+        "diff": 0.22036011080332407,
+        "ci95": [
+          0.17242148933571375,
+          0.27794094180552675
+        ],
+        "n_boot": 2000,
+        "n_groups": 649,
+        "test_scores_changed": 812
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_heart_rate",
+            "description": "negative heart rate",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_mg_dl",
+            "description": "creatinine sent in mg/dL instead of umol/L",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_values",
+            "description": "missing lab values",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          }
+        ],
+        "consistency": {
+          "n_compared": 812,
+          "n_differ": 183,
+          "max_abs_diff": 0.9999584526289007,
+          "missing_from_served": 0,
+          "auroc_validated": 0.9999230532471529,
+          "auroc_served": 0.558887349953832
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "numpy==2.4.6",
+          "joblib==1.6.0"
+        ],
+        "not_scanned_unpinned": [
+          "pandas",
+          "scikit-learn"
+        ],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 3,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_a_clean": {
+      "finding_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 6,
+        "Low": 3
+      },
+      "n_findings": 9,
+      "seconds": 129.5,
+      "files_hashed": 14,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 7,
+        "source_lines": 309,
+        "test_files": 4,
+        "test_functions": 8
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 5,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 10
+      },
+      "coverage_total": 36.75213675213675,
+      "split": {
+        "n_train": 2450,
+        "n_test": 798,
+        "n_groups": 1500,
+        "groups_in_both": 0
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.7530065395699401,
+          "auprc": 0.29266850339049183,
+          "brier": 0.1089937126601645,
+          "sensitivity": 0.25,
+          "specificity": 0.9265129682997119,
+          "n": 798,
+          "threshold": 0.3
+        },
+        "recomputed": {
+          "auroc": 0.7530065395699401,
+          "auprc": 0.29266850339049183,
+          "brier": 0.1089937126601645,
+          "n": 798,
+          "events": 104,
+          "sensitivity_from_alerts": 0.25,
+          "specificity_from_alerts": 0.9265129682997119,
+          "sensitivity_at_threshold": 0.25,
+          "specificity_at_threshold": 0.9265129682997119
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split.csv": true,
+          "outputs/test_predictions.csv": true,
+          "outputs/metrics.json": true
+        }
+      },
+      "temporal": {
+        "n_common": 798,
+        "auroc_a": 0.7530065395699401,
+        "auroc_b": 0.7530065395699401,
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_boot": 2000,
+        "n_groups": 375,
+        "test_scores_changed": 0
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_heart_rate",
+            "description": "negative heart rate",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_mg_dl",
+            "description": "creatinine sent in mg/dL instead of umol/L",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_values",
+            "description": "missing lab values",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 798,
+            "scores_changed": 17,
+            "expected": "reject or flag"
+          }
+        ],
+        "consistency": {
+          "n_compared": 798,
+          "n_differ": 0,
+          "max_abs_diff": 0.0,
+          "missing_from_served": 0
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "scikit-learn==1.9.1",
+          "joblib==1.6.0",
+          "PyYAML==6.0.3"
+        ],
+        "not_scanned_unpinned": [],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 2,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_b": {
+      "finding_counts": {
+        "Critical": 7,
+        "High": 16,
+        "Medium": 13,
+        "Low": 11
+      },
+      "n_findings": 47,
+      "seconds": 259.1,
+      "files_hashed": 23,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 14,
+        "source_lines": 854,
+        "test_files": 6,
+        "test_functions": 27
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 17,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 26,
+        "skipped": 1
+      },
+      "coverage_total": 86.81672025723472,
+      "split": {
+        "n_train": 5157,
+        "n_test": 1719,
+        "n_groups": 2461,
+        "groups_in_both": 940
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.8782541276357766,
+          "auprc": 0.6803691544002145,
+          "brier": 0.1494379207739395,
+          "sensitivity": 0.9551724137931035,
+          "specificity": 0.5405455215628455,
+          "n": 6876,
+          "threshold": 0.35
+        },
+        "recomputed": {
+          "auroc": 0.8320203656183324,
+          "auprc": 0.6019969800896329,
+          "brier": 0.1603516910630512,
+          "n": 1719,
+          "events": 361,
+          "sensitivity_from_alerts": 0.9113573407202216,
+          "specificity_from_alerts": 0.5191458026509573,
+          "sensitivity_at_threshold": 0.9113573407202216,
+          "specificity_at_threshold": 0.5191458026509573
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": false,
+          "outputs/split_assignment.csv": true,
+          "outputs/features.csv": false,
+          "outputs/predictions_test.csv": false,
+          "outputs/metrics.json": false
+        },
+        "pred_rows_compared": 1719,
+        "pred_rows_changed": 1719,
+        "max_abs_score_change": 0.25133600000000006,
+        "auroc_run1": 0.8782541276357766,
+        "auroc_run2": 0.8774022268261372
+      },
+      "temporal": {
+        "n_common": 1719,
+        "auroc_a": 0.8320203656183324,
+        "auroc_b": 0.7984631954275272,
+        "diff": 0.033557170190805174,
+        "ci95": [
+          0.021881064991276282,
+          0.0457864696102494
+        ],
+        "n_boot": 2000,
+        "n_groups": 1197,
+        "test_scores_changed": 1719
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1503,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_umol",
+            "description": "creatinine sent in umol/L instead of mg/dL",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1585,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "hemoglobin_g_l",
+            "description": "hemoglobin sent in g/L instead of g/dL",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1500,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_age",
+            "description": "negative age",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 18,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "flagged",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "flagged",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "unknown_ward",
+            "description": "unknown ward category",
+            "outcome": "flagged",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_required",
+            "description": "missing value in a required field",
+            "outcome": "flagged",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "duplicate_ids",
+            "description": "duplicate admission ids",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_lab",
+            "description": "missing lab value (allowed)",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 19,
+            "expected": "score"
+          }
+        ],
+        "consistency": {
+          "n_compared": 1719,
+          "n_differ": 649,
+          "max_abs_diff": 0.17923900000000004,
+          "missing_from_served": 0,
+          "auroc_validated": 0.8320203656183324,
+          "auroc_served": 0.8272104569617207
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "joblib==1.6.0",
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "pytest==9.2.0"
+        ],
+        "not_scanned_unpinned": [
+          "scikit-learn"
+        ],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 9,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_b_clean": {
+      "finding_counts": {
+        "Critical": 0,
+        "High": 7,
+        "Medium": 12,
+        "Low": 8
+      },
+      "n_findings": 27,
+      "seconds": 263.5,
+      "files_hashed": 23,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 14,
+        "source_lines": 853,
+        "test_files": 6,
+        "test_functions": 27
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 16,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 27
+      },
+      "coverage_total": 88.02588996763754,
+      "split": {
+        "n_train": 5119,
+        "n_test": 1724,
+        "n_groups": 2461,
+        "groups_in_both": 0
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.6964950879636232,
+          "auprc": 0.3972972591429619,
+          "brier": 0.19802491781765486,
+          "sensitivity": 0.8236994219653179,
+          "specificity": 0.39985486211901305,
+          "n": 1724,
+          "threshold": 0.35
+        },
+        "recomputed": {
+          "auroc": 0.6964950879636232,
+          "auprc": 0.3972972591429619,
+          "brier": 0.19802491781765486,
+          "n": 1724,
+          "events": 346,
+          "sensitivity_from_alerts": 0.8236994219653179,
+          "specificity_from_alerts": 0.39985486211901305,
+          "sensitivity_at_threshold": 0.8236994219653179,
+          "specificity_at_threshold": 0.39985486211901305
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split_assignment.csv": true,
+          "outputs/features.csv": true,
+          "outputs/predictions_test.csv": true,
+          "outputs/metrics.json": true
+        }
+      },
+      "temporal": {
+        "n_common": 1724,
+        "auroc_a": 0.6964950879636232,
+        "auroc_b": 0.6964950879636232,
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_boot": 2000,
+        "n_groups": 615,
+        "test_scores_changed": 0
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_umol",
+            "description": "creatinine sent in umol/L instead of mg/dL",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "hemoglobin_g_l",
+            "description": "hemoglobin sent in g/L instead of g/dL",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_age",
+            "description": "negative age",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "unknown_ward",
+            "description": "unknown ward category",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_required",
+            "description": "missing value in a required field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "duplicate_ids",
+            "description": "duplicate admission ids",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_lab",
+            "description": "missing lab value (allowed)",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1724,
+            "scores_changed": 19,
+            "expected": "score"
+          }
+        ],
+        "consistency": {
+          "n_compared": 1724,
+          "n_differ": 0,
+          "max_abs_diff": 0.0,
+          "missing_from_served": 0
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "joblib==1.6.0",
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "PyYAML==6.0.3",
+          "scikit-learn==1.9.1",
+          "pytest==9.2.0"
+        ],
+        "not_scanned_unpinned": [],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 8,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "score_a": {
+      "planted": 15,
+      "detected": 15,
+      "detected_located": 12,
+      "baseline_detected": 2,
+      "critical_high_planted": 9,
+      "critical_high_detected": 9,
+      "by_category": {
+        "leakage": {
+          "planted": 3,
+          "detected": 3,
+          "baseline": 1
+        },
+        "execution_integrity": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 1
+        },
+        "failure_handling": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "reproducibility": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "dependency": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "testing": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "integration": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        }
+      },
+      "clean": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 6,
+        "Low": 3
+      },
+      "clean_false_alarms": 0,
+      "rows": [
+        {
+          "id": "A01",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "ungrouped_split",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:RUF059"
+        },
+        {
+          "id": "A02",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "patient_overlap",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A03",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "fit_before_split",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A04",
+          "category": "execution_integrity",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "metrics_not_reproducible",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:BLE001"
+        },
+        {
+          "id": "A05",
+          "category": "execution_integrity",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "train_serve_skew",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A06",
+          "category": "failure_handling",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "broad_except",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A07",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "silent_coerce",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A08",
+          "category": "reproducibility",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_estimator",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A09",
+          "category": "reproducibility",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "set_ordering",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A10",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unpinned_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A11",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "undeclared_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A12",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "skipped_test",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A13",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "test_without_assertion",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A14",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "config_key_missing",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A15",
+          "category": "integration",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unreferenced_code",
+          "baseline_detected": false,
+          "baseline_rule": null
+        }
+      ]
+    },
+    "score_b": {
+      "planted": 16,
+      "detected": 11,
+      "detected_located": 6,
+      "baseline_detected": 2,
+      "critical_high_planted": 9,
+      "critical_high_detected": 7,
+      "by_category": {
+        "leakage": {
+          "planted": 3,
+          "detected": 2,
+          "baseline": 1
+        },
+        "execution_integrity": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "failure_handling": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 1
+        },
+        "reproducibility": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "dependency": {
+          "planted": 2,
+          "detected": 1,
+          "baseline": 0
+        },
+        "testing": {
+          "planted": 2,
+          "detected": 1,
+          "baseline": 0
+        },
+        "integration": {
+          "planted": 3,
+          "detected": 1,
+          "baseline": 0
+        }
+      },
+      "clean": {
+        "Critical": 0,
+        "High": 7,
+        "Medium": 12,
+        "Low": 8
+      },
+      "clean_false_alarms": 7,
+      "rows": [
+        {
+          "id": "B01",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "temporal_leakage",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B02",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "patient_overlap",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B03",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": true,
+          "baseline_rule": "ruff:RUF046"
+        },
+        {
+          "id": "B04",
+          "category": "execution_integrity",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "metrics_not_reproducible",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B05",
+          "category": "execution_integrity",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "train_serve_skew",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B06",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "broad_except",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:BLE001"
+        },
+        {
+          "id": "B07",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "silent_bad_input",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B08",
+          "category": "reproducibility",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_estimator",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B09",
+          "category": "reproducibility",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_random",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B10",
+          "category": "dependency",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unpinned_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B11",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B12",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B13",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "skipped_test",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B14",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B15",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "config_key_missing",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B16",
+          "category": "integration",
+          "intended_severity": "Low",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        }
+      ]
+    },
+    "adjudication": {
+      "run": "2026-11-17_frozen",
+      "frozen_commit": "2f8a7842e800fe394527d3483c620e141cab730b",
+      "method": "Each automatic match and each miss was checked by reading the finding's evidence against the defect description, after the sealed list was opened.",
+      "decisions": [
+        {
+          "id": "B01",
+          "auto": "unlocated_dynamic (temporal_leakage)",
+          "adjudicated": false,
+          "reason": "The post-prediction-time probe removed lab records only; it says nothing about future admissions counted in prior_admissions_365d. No finding points at this defect."
+        },
+        {
+          "id": "B02",
+          "auto": "unlocated_dynamic (patient_overlap)",
+          "adjudicated": true,
+          "reason": "Wrong pairing by the matcher. The real evidence is F02 temporal_leakage: deleting labs charted after discharge lowered test AUROC from 0.832 to 0.798 (95% CI of the drop 0.022 to 0.046)."
+        },
+        {
+          "id": "B03",
+          "auto": "missed",
+          "adjudicated": true,
+          "reason": "F01 patient_overlap: 940 of 1,197 test patients also appear in training. The matcher had given that finding to B02."
+        },
+        {
+          "id": "B04",
+          "auto": "unlocated_dynamic (metrics_not_reproducible)",
+          "adjudicated": true,
+          "reason": "F08: reported n 6,876 vs 1,719 rows in the predictions file; AUROC reported 0.878 vs 0.832 recomputed."
+        },
+        {
+          "id": "B05",
+          "auto": "unlocated_dynamic (train_serve_skew)",
+          "adjudicated": true,
+          "reason": "F03: 649 of 1,719 test scores differ between the validated pipeline and the inference command, consistent with missing labs filled with 0 at inference."
+        },
+        {
+          "id": "B07",
+          "auto": "unlocated_dynamic (silent_bad_input)",
+          "adjudicated": true,
+          "reason": "F04 to F07: Fahrenheit, umol/L, g/L and negative ages scored without error, which is the clipping behaviour."
+        },
+        {
+          "id": "B11",
+          "auto": "missed (location convention)",
+          "adjudicated": true,
+          "reason": "F15 reports yaml imported in readmit/config.py line 5 and not declared; the sealed list located the same defect in requirements.txt."
+        },
+        {
+          "id": "B12",
+          "auto": "missed",
+          "adjudicated": false,
+          "reason": "A test assertion that is always true is not caught by any check; the mutation sample did not single it out."
+        },
+        {
+          "id": "B14",
+          "auto": "missed",
+          "adjudicated": false,
+          "reason": "The inference service reads 'threshold' from the model card with a 0.5 default. No check compared served alerts with the documented 0.35 threshold."
+        },
+        {
+          "id": "B16",
+          "auto": "missed",
+          "adjudicated": false,
+          "reason": "The follow-up exclusion function is called only from a unit test, so the unreferenced-code check did not flag it."
+        }
+      ],
+      "clean_twin_false_alarms": "All 7 High findings on platform_b_clean come from the config-key check: it did not resolve a config section passed into a function under another name (model_cfg) and it treated a key written by the code itself (_root) as missing.",
+      "planted": 16,
+      "auto_detected": 11,
+      "adjudicated_detected": 12,
+      "adjudicated_ids": [
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B13",
+        "B15"
+      ],
+      "critical_high_planted": 9,
+      "critical_high_adjudicated": 7,
+      "missed": [
+        "B01",
+        "B12",
+        "B14",
+        "B16"
+      ],
+      "platform_a": {
+        "auto_detected": 15,
+        "adjudicated_detected": 15,
+        "note": "Unlocated matches A02, A04, A05 were checked: temporal_leakage, train_serve_skew and metrics_not_reproducible each exist for them."
+      }
+    },
+    "wilson_b": [
+      0.5050168327029684,
+      0.8981793257983292
+    ],
+    "wilson_b_ch": [
+      0.4525889666922117,
+      0.9367748934594303
+    ]
+  },
+  "posthoc": {
+    "platform_a": {
+      "finding_counts": {
+        "Critical": 6,
+        "High": 9,
+        "Medium": 13,
+        "Low": 5
+      },
+      "n_findings": 33,
+      "seconds": 127.5,
+      "files_hashed": 14,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 7,
+        "source_lines": 325,
+        "test_files": 4,
+        "test_functions": 8
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 3,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 9,
+        "skipped": 1
+      },
+      "coverage_total": 34.66135458167331,
+      "split": {
+        "n_train": 2436,
+        "n_test": 812,
+        "n_groups": 1500,
+        "groups_in_both": 484
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.9999660326086957,
+          "auprc": 0.9997578562204046,
+          "brier": 0.00030786642571477936,
+          "sensitivity": 0.9972826086956522,
+          "specificity": 1.0,
+          "n": 3248,
+          "threshold": 0.5
+        },
+        "recomputed": {
+          "auroc": 0.999923053247153,
+          "auprc": 0.9994152046783623,
+          "brier": 0.0012314337561451915,
+          "n": 812,
+          "events": 90,
+          "sensitivity_from_alerts": 0.9888888888888889,
+          "specificity_from_alerts": 1.0,
+          "sensitivity_at_threshold": 0.9888888888888889,
+          "specificity_at_threshold": 1.0
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split.csv": true,
+          "outputs/test_predictions.csv": false,
+          "outputs/metrics.json": false
+        },
+        "pred_rows_compared": 812,
+        "pred_rows_changed": 262,
+        "max_abs_score_change": 5.1654954384844636e-05,
+        "auroc_run1": 0.9999660326086957,
+        "auroc_run2": 0.9999660326086957
+      },
+      "temporal": {
+        "n_common": 812,
+        "auroc_a": 0.999923053247153,
+        "auroc_b": 0.7799322868574946,
+        "diff": 0.21999076638965842,
+        "ci95": [
+          0.17154711111673132,
+          0.2776022739139515
+        ],
+        "n_boot": 2000,
+        "n_groups": 649,
+        "test_scores_changed": 812
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_heart_rate",
+            "description": "negative heart rate",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_mg_dl",
+            "description": "creatinine sent in mg/dL instead of umol/L",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_values",
+            "description": "missing lab values",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 812,
+            "scores_changed": 0,
+            "expected": "reject or flag"
+          }
+        ],
+        "consistency": {
+          "n_compared": 812,
+          "n_differ": 192,
+          "max_abs_diff": 0.9999598893273635,
+          "missing_from_served": 0,
+          "auroc_validated": 0.999923053247153,
+          "auroc_served": 0.6387196060326255
+        },
+        "served_alerts_vs_reported_threshold": {
+          "threshold": 0.5,
+          "n": 812,
+          "disagree": 0
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "numpy==2.4.6",
+          "joblib==1.6.0"
+        ],
+        "not_scanned_unpinned": [
+          "pandas",
+          "scikit-learn"
+        ],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 3,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_a_clean": {
+      "finding_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 6,
+        "Low": 3
+      },
+      "n_findings": 9,
+      "seconds": 137.8,
+      "files_hashed": 14,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 7,
+        "source_lines": 309,
+        "test_files": 4,
+        "test_functions": 8
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 5,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 10
+      },
+      "coverage_total": 36.75213675213675,
+      "split": {
+        "n_train": 2450,
+        "n_test": 798,
+        "n_groups": 1500,
+        "groups_in_both": 0
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.7530065395699401,
+          "auprc": 0.29266850339049183,
+          "brier": 0.1089937126601645,
+          "sensitivity": 0.25,
+          "specificity": 0.9265129682997119,
+          "n": 798,
+          "threshold": 0.3
+        },
+        "recomputed": {
+          "auroc": 0.7530065395699401,
+          "auprc": 0.29266850339049183,
+          "brier": 0.1089937126601645,
+          "n": 798,
+          "events": 104,
+          "sensitivity_from_alerts": 0.25,
+          "specificity_from_alerts": 0.9265129682997119,
+          "sensitivity_at_threshold": 0.25,
+          "specificity_at_threshold": 0.9265129682997119
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split.csv": true,
+          "outputs/test_predictions.csv": true,
+          "outputs/metrics.json": true
+        }
+      },
+      "temporal": {
+        "n_common": 798,
+        "auroc_a": 0.7530065395699401,
+        "auroc_b": 0.7530065395699401,
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_boot": 2000,
+        "n_groups": 375,
+        "test_scores_changed": 0
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_heart_rate",
+            "description": "negative heart rate",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_mg_dl",
+            "description": "creatinine sent in mg/dL instead of umol/L",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_values",
+            "description": "missing lab values",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 798,
+            "scores_changed": 17,
+            "expected": "reject or flag"
+          }
+        ],
+        "consistency": {
+          "n_compared": 798,
+          "n_differ": 0,
+          "max_abs_diff": 0.0,
+          "missing_from_served": 0
+        },
+        "served_alerts_vs_reported_threshold": {
+          "threshold": 0.3,
+          "n": 798,
+          "disagree": 0
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "scikit-learn==1.9.1",
+          "joblib==1.6.0",
+          "PyYAML==6.0.3"
+        ],
+        "not_scanned_unpinned": [],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 2,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_b": {
+      "finding_counts": {
+        "Critical": 11,
+        "High": 10,
+        "Medium": 15,
+        "Low": 6
+      },
+      "n_findings": 42,
+      "seconds": 255.5,
+      "files_hashed": 23,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 14,
+        "source_lines": 854,
+        "test_files": 6,
+        "test_functions": 27
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 17,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 26,
+        "skipped": 1
+      },
+      "coverage_total": 86.81672025723472,
+      "split": {
+        "n_train": 5157,
+        "n_test": 1719,
+        "n_groups": 2461,
+        "groups_in_both": 940
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.8771362024479836,
+          "auprc": 0.6797825883281292,
+          "brier": 0.15005279936788132,
+          "sensitivity": 0.9496551724137932,
+          "specificity": 0.5423884998157021,
+          "n": 6876,
+          "threshold": 0.35
+        },
+        "recomputed": {
+          "auroc": 0.831361501964352,
+          "auprc": 0.5963083229301297,
+          "brier": 0.16100003065053056,
+          "n": 1719,
+          "events": 361,
+          "sensitivity_from_alerts": 0.9030470914127424,
+          "specificity_from_alerts": 0.5176730486008837,
+          "sensitivity_at_threshold": 0.9030470914127424,
+          "specificity_at_threshold": 0.5176730486008837
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": false,
+          "outputs/split_assignment.csv": true,
+          "outputs/features.csv": false,
+          "outputs/predictions_test.csv": false,
+          "outputs/metrics.json": false
+        },
+        "pred_rows_compared": 1719,
+        "pred_rows_changed": 1719,
+        "max_abs_score_change": 0.27414000000000005,
+        "auroc_run1": 0.8771362024479836,
+        "auroc_run2": 0.877339819769437
+      },
+      "temporal": {
+        "n_common": 1719,
+        "auroc_a": 0.831361501964352,
+        "auroc_b": 0.8018992815734399,
+        "diff": 0.029462220390912064,
+        "ci95": [
+          0.01731724804756877,
+          0.041900200947037954
+        ],
+        "n_boot": 2000,
+        "n_groups": 1197,
+        "test_scores_changed": 1719
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1480,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_umol",
+            "description": "creatinine sent in umol/L instead of mg/dL",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1591,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "hemoglobin_g_l",
+            "description": "hemoglobin sent in g/L instead of g/dL",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1485,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_age",
+            "description": "negative age",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 18,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "warned but scored",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "warned but scored",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "unknown_ward",
+            "description": "unknown ward category",
+            "outcome": "warned but scored",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_required",
+            "description": "missing value in a required field",
+            "outcome": "warned but scored",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 1719,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "duplicate_ids",
+            "description": "duplicate admission ids",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_lab",
+            "description": "missing lab value (allowed)",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1719,
+            "scores_changed": 19,
+            "expected": "score"
+          }
+        ],
+        "consistency": {
+          "n_compared": 1719,
+          "n_differ": 649,
+          "max_abs_diff": 0.20053500000000002,
+          "missing_from_served": 0,
+          "auroc_validated": 0.831361501964352,
+          "auroc_served": 0.8283772371786764
+        },
+        "served_alerts_vs_reported_threshold": {
+          "threshold": 0.35,
+          "n": 1719,
+          "disagree": 411
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "joblib==1.6.0",
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "pytest==9.2.0"
+        ],
+        "not_scanned_unpinned": [
+          "scikit-learn"
+        ],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 9,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "platform_b_clean": {
+      "finding_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 13,
+        "Low": 2
+      },
+      "n_findings": 15,
+      "seconds": 249.0,
+      "files_hashed": 23,
+      "unchanged": true,
+      "inventory": {
+        "source_files": 14,
+        "source_lines": 853,
+        "test_files": 6,
+        "test_functions": 27
+      },
+      "mutation": {
+        "run": 40,
+        "killed": 16,
+        "seed": 20261117
+      },
+      "tests": {
+        "passed": 27
+      },
+      "coverage_total": 88.02588996763754,
+      "split": {
+        "n_train": 5119,
+        "n_test": 1724,
+        "n_groups": 2461,
+        "groups_in_both": 0
+      },
+      "metrics": {
+        "reported": {
+          "auroc": 0.6964950879636232,
+          "auprc": 0.3972972591429619,
+          "brier": 0.19802491781765486,
+          "sensitivity": 0.8236994219653179,
+          "specificity": 0.39985486211901305,
+          "n": 1724,
+          "threshold": 0.35
+        },
+        "recomputed": {
+          "auroc": 0.6964950879636232,
+          "auprc": 0.3972972591429619,
+          "brier": 0.19802491781765486,
+          "n": 1724,
+          "events": 346,
+          "sensitivity_from_alerts": 0.8236994219653179,
+          "specificity_from_alerts": 0.39985486211901305,
+          "sensitivity_at_threshold": 0.8236994219653179,
+          "specificity_at_threshold": 0.39985486211901305
+        },
+        "pred_not_in_test": 0,
+        "test_not_in_pred": 0,
+        "alerts_inconsistent_with_reported_threshold": 0
+      },
+      "rerun": {
+        "hash_seeds": [
+          "0",
+          "1"
+        ],
+        "files": {
+          "data/": true,
+          "outputs/split_assignment.csv": true,
+          "outputs/features.csv": true,
+          "outputs/predictions_test.csv": true,
+          "outputs/metrics.json": true
+        }
+      },
+      "temporal": {
+        "n_common": 1724,
+        "auroc_a": 0.6964950879636232,
+        "auroc_b": 0.6964950879636232,
+        "diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_boot": 2000,
+        "n_groups": 615,
+        "test_scores_changed": 0
+      },
+      "inference": {
+        "perturbations": [
+          {
+            "name": "fahrenheit",
+            "description": "temperature sent in Fahrenheit",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "creatinine_umol",
+            "description": "creatinine sent in umol/L instead of mg/dL",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "hemoglobin_g_l",
+            "description": "hemoglobin sent in g/L instead of g/dL",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "negative_age",
+            "description": "negative age",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "text_in_lab",
+            "description": "text in a numeric lab field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_column",
+            "description": "required column missing",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "unknown_ward",
+            "description": "unknown ward category",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_required",
+            "description": "missing value in a required field",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "duplicate_ids",
+            "description": "duplicate admission ids",
+            "outcome": "rejected",
+            "returncode": 1,
+            "rows_out": null,
+            "scores_changed": null,
+            "expected": "reject or flag"
+          },
+          {
+            "name": "missing_lab",
+            "description": "missing lab value (allowed)",
+            "outcome": "silent",
+            "returncode": 0,
+            "rows_out": 1724,
+            "scores_changed": 19,
+            "expected": "score"
+          }
+        ],
+        "consistency": {
+          "n_compared": 1724,
+          "n_differ": 0,
+          "max_abs_diff": 0.0,
+          "missing_from_served": 0
+        },
+        "served_alerts_vs_reported_threshold": {
+          "threshold": 0.35,
+          "n": 1724,
+          "disagree": 0
+        }
+      },
+      "vulnerabilities": {
+        "scanned": [
+          "joblib==1.6.0",
+          "numpy==2.4.6",
+          "pandas==3.1.1",
+          "PyYAML==6.0.3",
+          "scikit-learn==1.9.1",
+          "pytest==9.2.0"
+        ],
+        "not_scanned_unpinned": [],
+        "date": "2026-11-17",
+        "tool": "pip-audit (PyPI/OSV advisory data)",
+        "status": "run",
+        "vulnerable_packages": 0
+      },
+      "baseline": {
+        "ruff_findings": 8,
+        "bandit_findings": 0,
+        "ruff_rc": 0,
+        "bandit_rc": 0
+      }
+    },
+    "score_a": {
+      "planted": 15,
+      "detected": 15,
+      "detected_located": 12,
+      "baseline_detected": 2,
+      "critical_high_planted": 9,
+      "critical_high_detected": 9,
+      "by_category": {
+        "leakage": {
+          "planted": 3,
+          "detected": 3,
+          "baseline": 1
+        },
+        "execution_integrity": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 1
+        },
+        "failure_handling": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "reproducibility": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "dependency": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "testing": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "integration": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        }
+      },
+      "clean": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 6,
+        "Low": 3
+      },
+      "clean_false_alarms": 0,
+      "rows": [
+        {
+          "id": "A01",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "ungrouped_split",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:RUF059"
+        },
+        {
+          "id": "A02",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "temporal_leakage",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A03",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "fit_before_split",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A04",
+          "category": "execution_integrity",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "train_serve_skew",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:BLE001"
+        },
+        {
+          "id": "A05",
+          "category": "execution_integrity",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "metrics_not_reproducible",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A06",
+          "category": "failure_handling",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "broad_except",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A07",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "silent_coerce",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A08",
+          "category": "reproducibility",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_estimator",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A09",
+          "category": "reproducibility",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "set_ordering",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A10",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unpinned_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A11",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "undeclared_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A12",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "skipped_test",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A13",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "test_without_assertion",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A14",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "config_key_missing",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "A15",
+          "category": "integration",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unreferenced_code",
+          "baseline_detected": false,
+          "baseline_rule": null
+        }
+      ]
+    },
+    "score_b": {
+      "planted": 16,
+      "detected": 12,
+      "detected_located": 6,
+      "baseline_detected": 2,
+      "critical_high_planted": 9,
+      "critical_high_detected": 8,
+      "by_category": {
+        "leakage": {
+          "planted": 3,
+          "detected": 2,
+          "baseline": 1
+        },
+        "execution_integrity": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "failure_handling": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 1
+        },
+        "reproducibility": {
+          "planted": 2,
+          "detected": 2,
+          "baseline": 0
+        },
+        "dependency": {
+          "planted": 2,
+          "detected": 1,
+          "baseline": 0
+        },
+        "testing": {
+          "planted": 2,
+          "detected": 1,
+          "baseline": 0
+        },
+        "integration": {
+          "planted": 3,
+          "detected": 2,
+          "baseline": 0
+        }
+      },
+      "clean": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 13,
+        "Low": 2
+      },
+      "clean_false_alarms": 0,
+      "rows": [
+        {
+          "id": "B01",
+          "category": "leakage",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "patient_overlap",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B02",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "temporal_leakage",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B03",
+          "category": "leakage",
+          "intended_severity": "High",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": true,
+          "baseline_rule": "ruff:RUF046"
+        },
+        {
+          "id": "B04",
+          "category": "execution_integrity",
+          "intended_severity": "Critical",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "metrics_not_reproducible",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B05",
+          "category": "execution_integrity",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "train_serve_skew",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B06",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "broad_except",
+          "baseline_detected": true,
+          "baseline_rule": "ruff:BLE001"
+        },
+        {
+          "id": "B07",
+          "category": "failure_handling",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "silent_bad_input",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B08",
+          "category": "reproducibility",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_estimator",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B09",
+          "category": "reproducibility",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unseeded_random",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B10",
+          "category": "dependency",
+          "intended_severity": "Low",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "unpinned_dependency",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B11",
+          "category": "dependency",
+          "intended_severity": "Medium",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B12",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B13",
+          "category": "testing",
+          "intended_severity": "Medium",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "skipped_test",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B14",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "unlocated_dynamic",
+          "finding_check": "served_threshold_mismatch",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B15",
+          "category": "integration",
+          "intended_severity": "High",
+          "detected": true,
+          "match_type": "located",
+          "finding_check": "config_key_missing",
+          "baseline_detected": false,
+          "baseline_rule": null
+        },
+        {
+          "id": "B16",
+          "category": "integration",
+          "intended_severity": "Low",
+          "detected": false,
+          "match_type": null,
+          "finding_check": null,
+          "baseline_detected": false,
+          "baseline_rule": null
+        }
+      ]
+    },
+    "adjudication": {
+      "run": "2026-11-17_posthoc",
+      "label": "post-hoc: checks changed after the sealed list was opened; not a held-out result",
+      "decisions": [
+        {
+          "id": "B01",
+          "adjudicated": false,
+          "reason": "Matched automatically to patient_overlap through the word 'patient'; that finding is evidence for B03. Future admissions counted in prior_admissions_365d are still not detected."
+        },
+        {
+          "id": "B03",
+          "adjudicated": true,
+          "reason": "F01 patient_overlap (940 of 1,197 test patients also in training)."
+        },
+        {
+          "id": "B11",
+          "adjudicated": true,
+          "reason": "F19 yaml imported in readmit/config.py and not declared (sealed list located it in requirements.txt)."
+        },
+        {
+          "id": "B16",
+          "adjudicated": true,
+          "reason": "F35 exclude_incomplete_followup is tested but never called by the platform (sealed list located it at the orchestrator)."
+        },
+        {
+          "id": "B12",
+          "adjudicated": false,
+          "reason": "An always-true test assertion is still not detected."
+        }
+      ],
+      "planted": 16,
+      "auto_detected": 12,
+      "adjudicated_detected": 14,
+      "adjudicated_ids": [
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B13",
+        "B14",
+        "B15",
+        "B16"
+      ],
+      "critical_high_planted": 9,
+      "critical_high_adjudicated": 8,
+      "missed": [
+        "B01",
+        "B12"
+      ],
+      "clean_twin_counts": {
+        "Critical": 0,
+        "High": 0,
+        "Medium": 13,
+        "Low": 2
+      }
+    },
+    "wilson_b": [
+      0.6397717251782153,
+      0.9650225125737311
+    ],
+    "wilson_b_ch": [
+      0.565000291629209,
+      0.9801091125830901
+    ]
+  }
+}

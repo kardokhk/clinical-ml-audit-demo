@@ -1,0 +1,390 @@
+[
+  {
+    "check": "silent_coerce",
+    "category": "failure_handling",
+    "severity": "Medium",
+    "title": "Invalid values silently become missing",
+    "detail": "`to_numeric(errors='coerce')` on line 106 turns unreadable values into NaN/NaT without reporting them.",
+    "recommendation": "Raise or count and report coerced values.",
+    "file": "readmit/ingest.py",
+    "line": 106,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F01"
+  },
+  {
+    "check": "unordered_listing",
+    "category": "reproducibility",
+    "severity": "Medium",
+    "title": "File listing order is not fixed",
+    "detail": "`staging.iterdir` on line 62 is not wrapped in sorted(); order depends on the file system.",
+    "recommendation": "Wrap directory listings in sorted().",
+    "file": "readmit/pipeline.py",
+    "line": 62,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F02"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `readmit.cli`",
+    "detail": "35 lines of code in readmit/cli.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "readmit/cli.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F03"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/cli.py",
+    "detail": "2 of 2 single-point changes to this file left every test passing, for example line 40 (2 -> 3).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/cli.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/cli.py",
+          "line": 40,
+          "mutation": "2 -> 3",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/cli.py",
+          "line": 35,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F04"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/cohort.py",
+    "detail": "2 of 4 single-point changes to this file left every test passing, for example line 48 (LtE -> Lt).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/cohort.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/cohort.py",
+          "line": 48,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/cohort.py",
+          "line": 38,
+          "mutation": "Gt -> GtE",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F05"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/config.py",
+    "detail": "4 of 4 single-point changes to this file left every test passing, for example line 58 (Lt -> LtE).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/config.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/config.py",
+          "line": 58,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 55,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 55,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 58,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F06"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/features.py",
+    "detail": "4 of 6 single-point changes to this file left every test passing, for example line 85 (Gt -> GtE).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/features.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/features.py",
+          "line": 85,
+          "mutation": "Gt -> GtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/features.py",
+          "line": 30,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/features.py",
+          "line": 95,
+          "mutation": "5 -> 6",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/features.py",
+          "line": 30,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F07"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/ingest.py",
+    "detail": "1 of 2 single-point changes to this file left every test passing, for example line 74 (5 -> 6).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/ingest.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/ingest.py",
+          "line": 74,
+          "mutation": "5 -> 6",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F08"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/model.py",
+    "detail": "3 of 6 single-point changes to this file left every test passing, for example line 36 (Eq -> NotEq).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/model.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/model.py",
+          "line": 36,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/model.py",
+          "line": 48,
+          "mutation": "2000 -> 2001",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/model.py",
+          "line": 38,
+          "mutation": "200 -> 201",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F09"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/pipeline.py",
+    "detail": "3 of 5 single-point changes to this file left every test passing, for example line 80 (Eq -> NotEq).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/pipeline.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/pipeline.py",
+          "line": 80,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/pipeline.py",
+          "line": 89,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/pipeline.py",
+          "line": 88,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F10"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `readmit.schema`",
+    "detail": "69 lines of code in readmit/schema.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "readmit/schema.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F11"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/schema.py",
+    "detail": "3 of 4 single-point changes to this file left every test passing, for example line 74 (45.0 -> 67.5).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/schema.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/schema.py",
+          "line": 74,
+          "mutation": "45.0 -> 67.5",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/schema.py",
+          "line": 73,
+          "mutation": "200.0 -> 300.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/schema.py",
+          "line": 67,
+          "mutation": "110 -> 111",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F12"
+  },
+  {
+    "check": "config_key_missing",
+    "category": "integration",
+    "severity": "Medium",
+    "title": "Code reads config key `C`, which the config does not define",
+    "detail": "Line 47 reads `C` with a fallback default, so any configured value is ignored silently. A code default is used; confirm it is intended.",
+    "recommendation": "Align the key name in code and config, and fail on unknown or missing keys.",
+    "file": "readmit/model.py",
+    "line": 47,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F13"
+  },
+  {
+    "check": "model_load_unverified",
+    "category": "execution_integrity",
+    "severity": "Low",
+    "title": "Model artefact loaded without an integrity check",
+    "detail": "`joblib.load` on line 106 loads a pickled object with no hash or version check.",
+    "recommendation": "Store a hash and the training commit with the model and verify both at load.",
+    "file": "readmit/model.py",
+    "line": 106,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F14"
+  },
+  {
+    "check": "no_lock_file",
+    "category": "dependency",
+    "severity": "Low",
+    "title": "No lock file with hashes",
+    "detail": "Transitive dependencies are not fixed, so two installs can differ even with exact top-level pins.",
+    "recommendation": "Add a lock file (pip-tools with --generate-hashes, uv or poetry).",
+    "file": "requirements.txt",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F15"
+  }
+]

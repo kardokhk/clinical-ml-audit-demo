@@ -1,0 +1,450 @@
+{
+  "planted": 15,
+  "detected": 15,
+  "detected_located": 12,
+  "baseline_detected": 2,
+  "critical_high_planted": 9,
+  "critical_high_detected": 9,
+  "findings_total": 33,
+  "findings_unmatched": [
+    "F01",
+    "F04",
+    "F05",
+    "F06",
+    "F10",
+    "F11",
+    "F13",
+    "F20",
+    "F22",
+    "F24",
+    "F25",
+    "F26",
+    "F27",
+    "F28",
+    "F29",
+    "F30",
+    "F31",
+    "F32"
+  ],
+  "by_category": {
+    "leakage": {
+      "planted": 3,
+      "detected": 3,
+      "baseline": 1
+    },
+    "execution_integrity": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 1
+    },
+    "failure_handling": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "reproducibility": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "dependency": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "testing": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    },
+    "integration": {
+      "planted": 2,
+      "detected": 2,
+      "baseline": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "A01",
+      "category": "leakage",
+      "intended_severity": "Critical",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/modeling.py",
+      "lines": [
+        19,
+        24
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F08",
+      "finding_check": "ungrouped_split",
+      "finding_severity": "High",
+      "finding_title": "`train_test_split` does not group rows by patient",
+      "baseline_detected": true,
+      "baseline_rule": "ruff:RUF059",
+      "description": "Admissions are split at random rather than by patient, so the same patient appears in train and test. Reported performance is inflated."
+    },
+    {
+      "id": "A02",
+      "category": "leakage",
+      "intended_severity": "Critical",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/features.py",
+      "lines": [
+        27,
+        27
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F02",
+      "finding_check": "temporal_leakage",
+      "finding_severity": "Critical",
+      "finding_title": "Performance depends on data recorded after the prediction time",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Minimum SpO2 is taken over the whole stay, including values recorded after the prediction time. The model sees the future."
+    },
+    {
+      "id": "A03",
+      "category": "leakage",
+      "intended_severity": "High",
+      "how_detectable": "static",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        32,
+        34
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F07",
+      "finding_check": "fit_before_split",
+      "finding_severity": "High",
+      "finding_title": "Preprocessing fitted before the train/test split",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The median imputer is fitted on all admissions before the split. Test-set statistics enter training."
+    },
+    {
+      "id": "A04",
+      "category": "execution_integrity",
+      "intended_severity": "Critical",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        72,
+        73
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F03",
+      "finding_check": "train_serve_skew",
+      "finding_severity": "Critical",
+      "finding_title": "The inference path gives different scores from the validated pipeline",
+      "baseline_detected": true,
+      "baseline_rule": "ruff:BLE001",
+      "description": "Inference reorders the feature columns alphabetically and passes a bare array, so features reach the model in the wrong positions. Served scores differ from validated scores."
+    },
+    {
+      "id": "A05",
+      "category": "execution_integrity",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        54,
+        56
+      ],
+      "detected_located": false,
+      "detected": true,
+      "match_type": "unlocated_dynamic",
+      "finding_id": "F09",
+      "finding_check": "metrics_not_reproducible",
+      "finding_severity": "High",
+      "finding_title": "Reported metrics cannot be reproduced from the saved test predictions",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "metrics.json is computed on all admissions, training rows included, not on the test predictions it sits beside. The reported AUROC cannot be reproduced from test_predictions.csv."
+    },
+    {
+      "id": "A06",
+      "category": "failure_handling",
+      "intended_severity": "Critical",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        67,
+        70
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F12",
+      "finding_check": "broad_except",
+      "finding_severity": "High",
+      "finding_title": "Broad exception handler continues silently",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "If validation fails at inference the table is re-read without validation. Out-of-range or wrong-unit inputs are scored silently."
+    },
+    {
+      "id": "A07",
+      "category": "failure_handling",
+      "intended_severity": "High",
+      "how_detectable": "static",
+      "file": "wardwatch/ingest.py",
+      "lines": [
+        46,
+        46
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F16",
+      "finding_check": "silent_coerce",
+      "finding_severity": "Medium",
+      "finding_title": "Invalid values silently become missing",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Non-numeric values are coerced to missing instead of rejected. Corrupt inputs are imputed silently."
+    },
+    {
+      "id": "A08",
+      "category": "reproducibility",
+      "intended_severity": "High",
+      "how_detectable": "dynamic",
+      "file": "wardwatch/modeling.py",
+      "lines": [
+        32,
+        34
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F18",
+      "finding_check": "unseeded_estimator",
+      "finding_severity": "Medium",
+      "finding_title": "`HistGradientBoostingClassifier` has no random_state",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The gradient boosting model samples features without a random_state. Two runs give different models and metrics."
+    },
+    {
+      "id": "A09",
+      "category": "reproducibility",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "wardwatch/features.py",
+      "lines": [
+        53,
+        53
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F17",
+      "finding_check": "set_ordering",
+      "finding_severity": "Medium",
+      "finding_title": "Order taken from a set",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "Lab feature order comes from a set, which depends on the string hash seed. Column order can differ between processes."
+    },
+    {
+      "id": "A10",
+      "category": "dependency",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "requirements.txt",
+      "lines": [
+        2,
+        3
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F19",
+      "finding_check": "unpinned_dependency",
+      "finding_severity": "Medium",
+      "finding_title": "`pandas` is not pinned to an exact version",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "pandas is range-pinned and scikit-learn is unpinned. Rebuilds can pick up different library versions."
+    },
+    {
+      "id": "A11",
+      "category": "dependency",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        9,
+        9
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F14",
+      "finding_check": "undeclared_dependency",
+      "finding_severity": "High",
+      "finding_title": "`yaml` is imported but not declared",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "yaml is imported but PyYAML is not in requirements.txt. A clean install fails at run time."
+    },
+    {
+      "id": "A12",
+      "category": "testing",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "tests/test_ingest.py",
+      "lines": [
+        26,
+        28
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F21",
+      "finding_check": "skipped_test",
+      "finding_severity": "Medium",
+      "finding_title": "Test `test_non_numeric_raises` is skipped",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The non-numeric input test is skipped, hiding the coercion defect."
+    },
+    {
+      "id": "A13",
+      "category": "testing",
+      "intended_severity": "Medium",
+      "how_detectable": "static",
+      "file": "tests/test_modeling.py",
+      "lines": [
+        13,
+        16
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F23",
+      "finding_check": "test_without_assertion",
+      "finding_severity": "Medium",
+      "finding_title": "Test `test_evaluate_counts` has no assertion",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The metrics test prints instead of asserting. It cannot fail."
+    },
+    {
+      "id": "A14",
+      "category": "integration",
+      "intended_severity": "High",
+      "how_detectable": "static",
+      "file": "wardwatch/cli.py",
+      "lines": [
+        45,
+        45
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F15",
+      "finding_check": "config_key_missing",
+      "finding_severity": "High",
+      "finding_title": "Code reads config key `model.threshold`, which the config does not define",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "The code reads model.threshold but the config defines model.alert_threshold, so a 0.5 default is used silently instead of the configured 0.30."
+    },
+    {
+      "id": "A15",
+      "category": "integration",
+      "intended_severity": "Low",
+      "how_detectable": "static",
+      "file": "wardwatch/modeling.py",
+      "lines": [
+        60,
+        64
+      ],
+      "detected_located": true,
+      "detected": true,
+      "match_type": "located",
+      "finding_id": "F33",
+      "finding_check": "unreferenced_code",
+      "finding_severity": "Low",
+      "finding_title": "`recalibrate` is defined but never used",
+      "baseline_detected": false,
+      "baseline_rule": null,
+      "description": "A recalibration step exists but is never called by the pipeline. Scores are uncalibrated despite the code suggesting otherwise."
+    }
+  ],
+  "clean_twin": {
+    "counts": {
+      "Critical": 0,
+      "High": 0,
+      "Medium": 6,
+      "Low": 3
+    },
+    "false_alarms_critical_high": 0,
+    "findings": [
+      {
+        "id": "F01",
+        "severity": "Medium",
+        "check": "test_without_assertion",
+        "title": "Test `test_valid_row_passes` has no assertion"
+      },
+      {
+        "id": "F02",
+        "severity": "Medium",
+        "check": "module_without_tests",
+        "title": "No test imports `wardwatch.cli`"
+      },
+      {
+        "id": "F03",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in wardwatch/cli.py"
+      },
+      {
+        "id": "F04",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in wardwatch/features.py"
+      },
+      {
+        "id": "F05",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in wardwatch/ingest.py"
+      },
+      {
+        "id": "F06",
+        "severity": "Medium",
+        "check": "mutants_survive",
+        "title": "Tests do not notice changes to the logic in wardwatch/modeling.py"
+      },
+      {
+        "id": "F07",
+        "severity": "Low",
+        "check": "silent_bad_input",
+        "title": "Bad input scored silently: missing lab values"
+      },
+      {
+        "id": "F08",
+        "severity": "Low",
+        "check": "no_lock_file",
+        "title": "No lock file with hashes"
+      },
+      {
+        "id": "F09",
+        "severity": "Low",
+        "check": "module_without_tests",
+        "title": "No test imports `wardwatch.synth`"
+      }
+    ]
+  },
+  "clean_twin_baseline_findings": 2,
+  "defective_baseline_findings": 3
+}

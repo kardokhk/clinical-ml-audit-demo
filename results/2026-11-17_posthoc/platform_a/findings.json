@@ -1,0 +1,826 @@
+[
+  {
+    "check": "patient_overlap",
+    "category": "leakage",
+    "severity": "Critical",
+    "title": "Patients appear in both the training and the test set",
+    "detail": "484 of 649 test patients (75%) also have records in training; 600 of 812 test records belong to them. Test performance is measured partly on patients the model has already seen.",
+    "recommendation": "Split by patient (GroupShuffleSplit or GroupKFold) and re-report test metrics.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "groups_in_both": 484,
+      "test_groups": 649,
+      "example_groups": [
+        "P00002",
+        "P00007",
+        "P00008"
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F01"
+  },
+  {
+    "check": "temporal_leakage",
+    "category": "leakage",
+    "severity": "Critical",
+    "title": "Performance depends on data recorded after the prediction time",
+    "detail": "Removing every record timed after the prediction time lowered test AUROC from 1.000 to 0.780 (difference 0.220, 95% CI 0.172 to 0.278, bootstrap over 649 patients). Features use information the model would not have at the time it is used.",
+    "recommendation": "Filter every feature source to times at or before the prediction time; add a test with post-time records.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "n_common": 812,
+      "auroc_a": 0.999923053247153,
+      "auroc_b": 0.7799322868574946,
+      "diff": 0.21999076638965842,
+      "ci95": [
+        0.17154711111673132,
+        0.2776022739139515
+      ],
+      "n_boot": 2000,
+      "n_groups": 649,
+      "test_scores_changed": 812
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F02"
+  },
+  {
+    "check": "train_serve_skew",
+    "category": "execution_integrity",
+    "severity": "Critical",
+    "title": "The inference path gives different scores from the validated pipeline",
+    "detail": "Scoring the 812 test records through the documented inference command changed 192 scores (largest difference 1.000). AUROC on these records: 1.000 validated vs 0.639 served. The validated performance does not describe what is served.",
+    "recommendation": "Use one preprocessing and feature path for training and inference, and add a test that compares them.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "n_compared": 812,
+      "n_differ": 192,
+      "max_abs_diff": 0.9999598893273635,
+      "missing_from_served": 0,
+      "auroc_validated": 0.999923053247153,
+      "auroc_served": 0.6387196060326255
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F03"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: temperature sent in Fahrenheit",
+    "detail": "The inference command exited normally and returned 812 scored records with no error or warning; 0 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "fahrenheit",
+      "description": "temperature sent in Fahrenheit",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 812,
+      "scores_changed": 0,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F04"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: negative heart rate",
+    "detail": "The inference command exited normally and returned 812 scored records with no error or warning; 0 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "negative_heart_rate",
+      "description": "negative heart rate",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 812,
+      "scores_changed": 0,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F05"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: creatinine sent in mg/dL instead of umol/L",
+    "detail": "The inference command exited normally and returned 812 scored records with no error or warning; 0 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "creatinine_mg_dl",
+      "description": "creatinine sent in mg/dL instead of umol/L",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 812,
+      "scores_changed": 0,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F06"
+  },
+  {
+    "check": "fit_before_split",
+    "category": "leakage",
+    "severity": "High",
+    "title": "Preprocessing fitted before the train/test split",
+    "detail": "`SimpleImputer().fit(...)` on line 33 runs before the split on line 36 in the same function, so statistics from the test rows enter training.",
+    "recommendation": "Fit every imputer, scaler or selector on training rows only, inside a Pipeline.",
+    "file": "wardwatch/cli.py",
+    "line": 33,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F07"
+  },
+  {
+    "check": "ungrouped_split",
+    "category": "leakage",
+    "severity": "High",
+    "title": "`train_test_split` does not group rows by patient",
+    "detail": "Line 21 splits rows without a patient grouping while the data hold several rows per patient. The same patient can then sit in training and test.",
+    "recommendation": "Split with GroupShuffleSplit or GroupKFold on the patient id.",
+    "file": "wardwatch/modeling.py",
+    "line": 21,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F08"
+  },
+  {
+    "check": "metrics_not_reproducible",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Reported metrics cannot be reproduced from the saved test predictions",
+    "detail": "auprc: reported 0.9998, recomputed 0.9994; brier: reported 0.0003, recomputed 0.0012; n: reported 3248.0000, recomputed 812.0000.",
+    "recommendation": "Compute every reported metric from the saved test predictions in one function, and test it.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "mismatches": [
+        [
+          "auprc",
+          0.9997578562204046,
+          0.9994152046783623
+        ],
+        [
+          "brier",
+          0.00030786642571477936,
+          0.0012314337561451915
+        ],
+        [
+          "n",
+          3248.0,
+          812
+        ]
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F09"
+  },
+  {
+    "check": "operating_point_mismatch",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Reported sensitivity does not match the emitted alerts",
+    "detail": "Reported 0.9973; recomputed from the alert column 0.9889.",
+    "recommendation": "Derive operating-point metrics from the same alert column that is served.",
+    "file": null,
+    "line": null,
+    "evidence": {},
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F10"
+  },
+  {
+    "check": "runtime_warning",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Model receives features without their names at inference",
+    "detail": "`UserWarning: X does not have valid feature names, but SimpleImputer was fitted with feature names` during step(s): predict:creatinine_mg_dl, predict:fahrenheit, predict:missing_values, predict:negative_heart_rate, predict:text_in_lab, predict:valid.",
+    "recommendation": "Pass a DataFrame with the training column order; check names and order before scoring.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "steps": [
+        "predict:creatinine_mg_dl",
+        "predict:fahrenheit",
+        "predict:missing_values",
+        "predict:negative_heart_rate",
+        "predict:text_in_lab",
+        "predict:valid"
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F11"
+  },
+  {
+    "check": "broad_except",
+    "category": "failure_handling",
+    "severity": "High",
+    "title": "Broad exception handler continues silently",
+    "detail": "Line 69 catches Exception and does not re-raise. Errors become default values or skipped steps instead of visible failures.",
+    "recommendation": "Catch the specific exception, log it, and fail or flag the record.",
+    "file": "wardwatch/cli.py",
+    "line": 69,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F12"
+  },
+  {
+    "check": "rerun_outputs_differ",
+    "category": "reproducibility",
+    "severity": "High",
+    "title": "Rerunning the pipeline gives different results",
+    "detail": "Files that differ between two runs of the same commands on the same inputs: outputs/test_predictions.csv, outputs/metrics.json. 262 of 812 common test scores changed (largest change 0.0001); reported AUROC 0.9999660326086957 vs 0.9999660326086957.",
+    "recommendation": "Fix seeds and ordering, then show two identical runs before any clinical evaluation.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "differing": [
+        "outputs/test_predictions.csv",
+        "outputs/metrics.json"
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F13"
+  },
+  {
+    "check": "undeclared_dependency",
+    "category": "dependency",
+    "severity": "High",
+    "title": "`yaml` is imported but not declared",
+    "detail": "First imported in wardwatch/cli.py line 9 (1 import site(s)); no requirement provides it. A clean install from the declared dependencies fails at run time.",
+    "recommendation": "Add PyYAML with an exact version.",
+    "file": "wardwatch/cli.py",
+    "line": 9,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F14"
+  },
+  {
+    "check": "config_key_missing",
+    "category": "integration",
+    "severity": "High",
+    "title": "Code reads config key `model.threshold`, which the config does not define",
+    "detail": "Line 45 reads `model.threshold` with a fallback default, so any configured value is ignored silently. The same section defines `model.alert_threshold`, which no code reads: probably a renamed key.",
+    "recommendation": "Align the key name in code and config, and fail on unknown or missing keys.",
+    "file": "wardwatch/cli.py",
+    "line": 45,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F15"
+  },
+  {
+    "check": "silent_coerce",
+    "category": "failure_handling",
+    "severity": "Medium",
+    "title": "Invalid values silently become missing",
+    "detail": "`to_numeric(errors='coerce')` on line 46 turns unreadable values into NaN/NaT without reporting them.",
+    "recommendation": "Raise or count and report coerced values.",
+    "file": "wardwatch/ingest.py",
+    "line": 46,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F16"
+  },
+  {
+    "check": "set_ordering",
+    "category": "reproducibility",
+    "severity": "Medium",
+    "title": "Order taken from a set",
+    "detail": "Line 53 turns a set into an ordered sequence. String hashing is randomised per process, so the order can change between runs.",
+    "recommendation": "Use sorted(...) or a list with a fixed order.",
+    "file": "wardwatch/features.py",
+    "line": 53,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F17"
+  },
+  {
+    "check": "unseeded_estimator",
+    "category": "reproducibility",
+    "severity": "Medium",
+    "title": "`HistGradientBoostingClassifier` has no random_state",
+    "detail": "Line 32 creates `HistGradientBoostingClassifier` without a fixed random_state, so reruns can differ.",
+    "recommendation": "Pass random_state from the configured seed.",
+    "file": "wardwatch/modeling.py",
+    "line": 32,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F18"
+  },
+  {
+    "check": "unpinned_dependency",
+    "category": "dependency",
+    "severity": "Medium",
+    "title": "`pandas` is not pinned to an exact version",
+    "detail": "requirements.txt line 2 declares `pandas >=2.0`. A rebuild can install a different version from the one that was validated.",
+    "recommendation": "Pin exact versions and keep a lock file with hashes.",
+    "file": "requirements.txt",
+    "line": 2,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F19"
+  },
+  {
+    "check": "unpinned_dependency",
+    "category": "dependency",
+    "severity": "Medium",
+    "title": "`scikit-learn` is not pinned to an exact version",
+    "detail": "requirements.txt line 3 declares `scikit-learn`. A rebuild can install a different version from the one that was validated.",
+    "recommendation": "Pin exact versions and keep a lock file with hashes.",
+    "file": "requirements.txt",
+    "line": 3,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F20"
+  },
+  {
+    "check": "skipped_test",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Test `test_non_numeric_raises` is skipped",
+    "detail": "Decorator `pytest.mark.skip` on line 26 (reason: \"flaky on CI runner\").",
+    "recommendation": "Run it; a skipped test can hide a real defect.",
+    "file": "tests/test_ingest.py",
+    "line": 26,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F21"
+  },
+  {
+    "check": "test_without_assertion",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Test `test_valid_row_passes` has no assertion",
+    "detail": "Line 32: the test passes whenever the code does not crash.",
+    "recommendation": "Assert expected values from a known-answer case.",
+    "file": "tests/test_ingest.py",
+    "line": 32,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F22"
+  },
+  {
+    "check": "test_without_assertion",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Test `test_evaluate_counts` has no assertion",
+    "detail": "Line 13: the test passes whenever the code does not crash.",
+    "recommendation": "Assert expected values from a known-answer case.",
+    "file": "tests/test_modeling.py",
+    "line": 13,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F23"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `wardwatch.cli`",
+    "detail": "81 lines of code in wardwatch/cli.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "wardwatch/cli.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F24"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/cli.py",
+    "detail": "12 of 12 single-point changes to this file left every test passing, for example line 52 (GtE -> Gt).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/cli.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/cli.py",
+          "line": 52,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 88,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 93,
+          "mutation": "Or -> And",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 57,
+          "mutation": "2 -> 3",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 45,
+          "mutation": "0.5 -> 0.75",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 98,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 39,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 75,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 40,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 53,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 66,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 90,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F25"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/features.py",
+    "detail": "1 of 2 single-point changes to this file left every test passing, for example line 42 (Eq -> NotEq).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/features.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/features.py",
+          "line": 42,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F26"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/ingest.py",
+    "detail": "15 of 17 single-point changes to this file left every test passing, for example line 9 (250.0 -> 375.0).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/ingest.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 9,
+          "mutation": "250.0 -> 375.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 67,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 10,
+          "mutation": "4.0 -> 6.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 65,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 16,
+          "mutation": "0.1 -> 0.15000000000000002",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 17,
+          "mutation": "10.0 -> 15.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 11,
+          "mutation": "300.0 -> 450.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 47,
+          "mutation": "Gt -> GtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 18,
+          "mutation": "0.1 -> 0.15000000000000002",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 13,
+          "mutation": "50.0 -> 75.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 16,
+          "mutation": "30.0 -> 45.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 47,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 12,
+          "mutation": "45.0 -> 67.5",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 11,
+          "mutation": "40.0 -> 60.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 18,
+          "mutation": "200.0 -> 300.0",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F27"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/modeling.py",
+    "detail": "9 of 9 single-point changes to this file left every test passing, for example line 46 (Eq -> NotEq).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/modeling.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 46,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 75,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 72,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 79,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 46,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 45,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 80,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 53,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 53,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F28"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Low",
+    "title": "Bad input scored silently: missing lab values",
+    "detail": "The inference command exited normally and returned 812 scored records with no error or warning; 0 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "missing_values",
+      "description": "missing lab values",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 812,
+      "scores_changed": 0,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F29"
+  },
+  {
+    "check": "no_lock_file",
+    "category": "dependency",
+    "severity": "Low",
+    "title": "No lock file with hashes",
+    "detail": "Transitive dependencies are not fixed, so two installs can differ even with exact top-level pins.",
+    "recommendation": "Add a lock file (pip-tools with --generate-hashes, uv or poetry).",
+    "file": "requirements.txt",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F30"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Low",
+    "title": "No test imports `wardwatch.synth`",
+    "detail": "72 lines of code in wardwatch/synth.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "wardwatch/synth.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F31"
+  },
+  {
+    "check": "config_key_unused",
+    "category": "integration",
+    "severity": "Low",
+    "title": "Config key `model.alert_threshold` is never read",
+    "detail": "A setting that no code reads usually means a renamed key or a dead option.",
+    "recommendation": "Remove it or wire it to the code that should use it.",
+    "file": "config.yaml",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F32"
+  },
+  {
+    "check": "unreferenced_code",
+    "category": "integration",
+    "severity": "Low",
+    "title": "`recalibrate` is defined but never used",
+    "detail": "Function on line 60 is not referenced anywhere in the repository, tests included.",
+    "recommendation": "Confirm whether the pipeline should call it; remove it or wire it in.",
+    "file": "wardwatch/modeling.py",
+    "line": 60,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F33"
+  }
+]

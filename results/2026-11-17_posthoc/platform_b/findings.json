@@ -1,0 +1,858 @@
+[
+  {
+    "check": "patient_overlap",
+    "category": "leakage",
+    "severity": "Critical",
+    "title": "Patients appear in both the training and the test set",
+    "detail": "940 of 1197 test patients (79%) also have records in training; 1413 of 1719 test records belong to them. Test performance is measured partly on patients the model has already seen.",
+    "recommendation": "Split by patient (GroupShuffleSplit or GroupKFold) and re-report test metrics.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "groups_in_both": 940,
+      "test_groups": 1197,
+      "example_groups": [
+        "P000002",
+        "P000004",
+        "P000006"
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F01"
+  },
+  {
+    "check": "temporal_leakage",
+    "category": "leakage",
+    "severity": "Critical",
+    "title": "Performance depends on data recorded after the prediction time",
+    "detail": "Removing every record timed after the prediction time lowered test AUROC from 0.831 to 0.802 (difference 0.029, 95% CI 0.017 to 0.042, bootstrap over 1197 patients). Features use information the model would not have at the time it is used.",
+    "recommendation": "Filter every feature source to times at or before the prediction time; add a test with post-time records.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "n_common": 1719,
+      "auroc_a": 0.831361501964352,
+      "auroc_b": 0.8018992815734399,
+      "diff": 0.029462220390912064,
+      "ci95": [
+        0.01731724804756877,
+        0.041900200947037954
+      ],
+      "n_boot": 2000,
+      "n_groups": 1197,
+      "test_scores_changed": 1719
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F02"
+  },
+  {
+    "check": "train_serve_skew",
+    "category": "execution_integrity",
+    "severity": "Critical",
+    "title": "The inference path gives different scores from the validated pipeline",
+    "detail": "Scoring the 1719 test records through the documented inference command changed 649 scores (largest difference 0.201). AUROC on these records: 0.831 validated vs 0.828 served. The validated performance does not describe what is served.",
+    "recommendation": "Use one preprocessing and feature path for training and inference, and add a test that compares them.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "n_compared": 1719,
+      "n_differ": 649,
+      "max_abs_diff": 0.20053500000000002,
+      "missing_from_served": 0,
+      "auroc_validated": 0.831361501964352,
+      "auroc_served": 0.8283772371786764
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F03"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: temperature sent in Fahrenheit",
+    "detail": "The inference command exited normally and returned 1719 scored records with no error or warning; 1480 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "fahrenheit",
+      "description": "temperature sent in Fahrenheit",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1480,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F04"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: creatinine sent in umol/L instead of mg/dL",
+    "detail": "The inference command exited normally and returned 1719 scored records with no error or warning; 1591 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "creatinine_umol",
+      "description": "creatinine sent in umol/L instead of mg/dL",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1591,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F05"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: hemoglobin sent in g/L instead of g/dL",
+    "detail": "The inference command exited normally and returned 1719 scored records with no error or warning; 1485 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "hemoglobin_g_l",
+      "description": "hemoglobin sent in g/L instead of g/dL",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1485,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F06"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored silently: negative age",
+    "detail": "The inference command exited normally and returned 1719 scored records with no error or warning; 18 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "negative_age",
+      "description": "negative age",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 18,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F07"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored after only a log warning: text in a numeric lab field",
+    "detail": "The inference command exited normally and returned 1719 scored records, logging a warning but still writing a score for every record; 1719 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "text_in_lab",
+      "description": "text in a numeric lab field",
+      "outcome": "warned but scored",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1719,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F08"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored after only a log warning: required column missing",
+    "detail": "The inference command exited normally and returned 1719 scored records, logging a warning but still writing a score for every record; 1719 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "missing_column",
+      "description": "required column missing",
+      "outcome": "warned but scored",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1719,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F09"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored after only a log warning: unknown ward category",
+    "detail": "The inference command exited normally and returned 1719 scored records, logging a warning but still writing a score for every record; 1719 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "unknown_ward",
+      "description": "unknown ward category",
+      "outcome": "warned but scored",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1719,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F10"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Critical",
+    "title": "Bad input scored after only a log warning: missing value in a required field",
+    "detail": "The inference command exited normally and returned 1719 scored records, logging a warning but still writing a score for every record; 1719 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "missing_required",
+      "description": "missing value in a required field",
+      "outcome": "warned but scored",
+      "returncode": 0,
+      "rows_out": 1719,
+      "scores_changed": 1719,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F11"
+  },
+  {
+    "check": "metrics_not_reproducible",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Reported metrics cannot be reproduced from the saved test predictions",
+    "detail": "auroc: reported 0.8771, recomputed 0.8314; auprc: reported 0.6798, recomputed 0.5963; brier: reported 0.1501, recomputed 0.1610; n: reported 6876.0000, recomputed 1719.0000.",
+    "recommendation": "Compute every reported metric from the saved test predictions in one function, and test it.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "mismatches": [
+        [
+          "auroc",
+          0.8771362024479836,
+          0.831361501964352
+        ],
+        [
+          "auprc",
+          0.6797825883281292,
+          0.5963083229301297
+        ],
+        [
+          "brier",
+          0.15005279936788132,
+          0.16100003065053056
+        ],
+        [
+          "n",
+          6876.0,
+          1719
+        ]
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F12"
+  },
+  {
+    "check": "operating_point_mismatch",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Reported sensitivity does not match the emitted alerts",
+    "detail": "Reported 0.9497; recomputed from the alert column 0.9030.",
+    "recommendation": "Derive operating-point metrics from the same alert column that is served.",
+    "file": null,
+    "line": null,
+    "evidence": {},
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F13"
+  },
+  {
+    "check": "operating_point_mismatch",
+    "category": "execution_integrity",
+    "severity": "High",
+    "title": "Reported specificity does not match the emitted alerts",
+    "detail": "Reported 0.5424; recomputed from the alert column 0.5177.",
+    "recommendation": "Derive operating-point metrics from the same alert column that is served.",
+    "file": null,
+    "line": null,
+    "evidence": {},
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F14"
+  },
+  {
+    "check": "broad_except",
+    "category": "failure_handling",
+    "severity": "High",
+    "title": "Broad exception handler continues silently",
+    "detail": "Line 59 catches Exception and does not re-raise. Errors become default values or skipped steps instead of visible failures.",
+    "recommendation": "Catch the specific exception, log it, and fail or flag the record.",
+    "file": "readmit/inference.py",
+    "line": 59,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F15"
+  },
+  {
+    "check": "rerun_data_differs",
+    "category": "reproducibility",
+    "severity": "High",
+    "title": "Two runs of the data step produce different data",
+    "detail": "The contents of `data/` differ between two clean runs of the same command.",
+    "recommendation": "Seed every random draw and fix any ordering in the data step.",
+    "file": null,
+    "line": null,
+    "evidence": {},
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F16"
+  },
+  {
+    "check": "rerun_outputs_differ",
+    "category": "reproducibility",
+    "severity": "High",
+    "title": "Rerunning the pipeline gives different results",
+    "detail": "Files that differ between two runs of the same commands on the same inputs: outputs/features.csv, outputs/predictions_test.csv, outputs/metrics.json. 1719 of 1719 common test scores changed (largest change 0.2741); reported AUROC 0.8771362024479836 vs 0.877339819769437.",
+    "recommendation": "Fix seeds and ordering, then show two identical runs before any clinical evaluation.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "differing": [
+        "outputs/features.csv",
+        "outputs/predictions_test.csv",
+        "outputs/metrics.json"
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F17"
+  },
+  {
+    "check": "unseeded_estimator",
+    "category": "reproducibility",
+    "severity": "High",
+    "title": "`RandomForestClassifier` has no random_state",
+    "detail": "Line 37 creates `RandomForestClassifier` without a fixed random_state, so reruns can differ.",
+    "recommendation": "Pass random_state from the configured seed.",
+    "file": "readmit/model.py",
+    "line": 37,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F18"
+  },
+  {
+    "check": "undeclared_dependency",
+    "category": "dependency",
+    "severity": "High",
+    "title": "`yaml` is imported but not declared",
+    "detail": "First imported in readmit/config.py line 5 (1 import site(s)); no requirement provides it. A clean install from the declared dependencies fails at run time.",
+    "recommendation": "Add PyYAML with an exact version.",
+    "file": "readmit/config.py",
+    "line": 5,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F19"
+  },
+  {
+    "check": "served_threshold_mismatch",
+    "category": "integration",
+    "severity": "High",
+    "title": "Served alerts do not use the threshold that was evaluated",
+    "detail": "411 of 1719 records scored by the inference command have an alert flag that disagrees with score >= 0.35, the threshold in the reported metrics. Patients flagged in use differ from the evaluated operating point.",
+    "recommendation": "Read the decision threshold from one versioned source in training, evaluation and serving, and test that they agree.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "threshold": 0.35,
+      "n": 1719,
+      "disagree": 411
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F20"
+  },
+  {
+    "check": "config_key_missing",
+    "category": "integration",
+    "severity": "High",
+    "title": "Code reads config key `features.lookback_days`, which the config does not define",
+    "detail": "Line 51 reads `features.lookback_days` with a fallback default, so any configured value is ignored silently. The same section defines `features.prior_admission_lookback_days`, which no code reads: probably a renamed key.",
+    "recommendation": "Align the key name in code and config, and fail on unknown or missing keys.",
+    "file": "readmit/features.py",
+    "line": 51,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F21"
+  },
+  {
+    "check": "silent_coerce",
+    "category": "failure_handling",
+    "severity": "Medium",
+    "title": "Invalid values silently become missing",
+    "detail": "`to_numeric(errors='coerce')` on line 106 turns unreadable values into NaN/NaT without reporting them.",
+    "recommendation": "Raise or count and report coerced values.",
+    "file": "readmit/ingest.py",
+    "line": 106,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F22"
+  },
+  {
+    "check": "unordered_listing",
+    "category": "reproducibility",
+    "severity": "Medium",
+    "title": "File listing order is not fixed",
+    "detail": "`staging.iterdir` on line 61 is not wrapped in sorted(); order depends on the file system.",
+    "recommendation": "Wrap directory listings in sorted().",
+    "file": "readmit/pipeline.py",
+    "line": 61,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F23"
+  },
+  {
+    "check": "unseeded_random",
+    "category": "reproducibility",
+    "severity": "Medium",
+    "title": "Global NumPy random state used without a seed",
+    "detail": "`np.random.randint` on line 183 draws from the unseeded global generator.",
+    "recommendation": "Use np.random.default_rng(seed) passed down from the config.",
+    "file": "readmit/synth.py",
+    "line": 183,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F24"
+  },
+  {
+    "check": "unpinned_dependency",
+    "category": "dependency",
+    "severity": "Medium",
+    "title": "`scikit-learn` is not pinned to an exact version",
+    "detail": "requirements.txt line 4 declares `scikit-learn >=1.3`. A rebuild can install a different version from the one that was validated.",
+    "recommendation": "Pin exact versions and keep a lock file with hashes.",
+    "file": "requirements.txt",
+    "line": 4,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F25"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `readmit.cli`",
+    "detail": "35 lines of code in readmit/cli.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "readmit/cli.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F26"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/cli.py",
+    "detail": "2 of 2 single-point changes to this file left every test passing, for example line 40 (2 -> 3).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/cli.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/cli.py",
+          "line": 40,
+          "mutation": "2 -> 3",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/cli.py",
+          "line": 35,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F27"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/config.py",
+    "detail": "4 of 4 single-point changes to this file left every test passing, for example line 58 (Lt -> LtE).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/config.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/config.py",
+          "line": 58,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 55,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 55,
+          "mutation": "LtE -> Lt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/config.py",
+          "line": 58,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F28"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/features.py",
+    "detail": "3 of 6 single-point changes to this file left every test passing, for example line 30 (GtE -> Gt).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/features.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/features.py",
+          "line": 30,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/features.py",
+          "line": 85,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/features.py",
+          "line": 85,
+          "mutation": "Gt -> GtE",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F29"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/ingest.py",
+    "detail": "3 of 4 single-point changes to this file left every test passing, for example line 108 (Lt -> LtE).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/ingest.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/ingest.py",
+          "line": 108,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/ingest.py",
+          "line": 46,
+          "mutation": "3 -> 4",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/ingest.py",
+          "line": 53,
+          "mutation": "5 -> 6",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F30"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/pipeline.py",
+    "detail": "2 of 4 single-point changes to this file left every test passing, for example line 86 (6 -> 7).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/pipeline.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/pipeline.py",
+          "line": 86,
+          "mutation": "6 -> 7",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/pipeline.py",
+          "line": 87,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F31"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `readmit.schema`",
+    "detail": "69 lines of code in readmit/schema.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "readmit/schema.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F32"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in readmit/schema.py",
+    "detail": "4 of 4 single-point changes to this file left every test passing, for example line 74 (45.0 -> 67.5).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "readmit/schema.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "readmit/schema.py",
+          "line": 74,
+          "mutation": "45.0 -> 67.5",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/schema.py",
+          "line": 70,
+          "mutation": "0.1 -> 0.15000000000000002",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/schema.py",
+          "line": 46,
+          "mutation": "88.4 -> 132.60000000000002",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "readmit/schema.py",
+          "line": 73,
+          "mutation": "200.0 -> 300.0",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F33"
+  },
+  {
+    "check": "skipped_test",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Test `test_validate_rejects_out_of_range` is skipped",
+    "detail": "Decorator `pytest.mark.skip` on line 51 (reason: \"range limits pending sign-off from clinical informatics\").",
+    "recommendation": "Run it; a skipped test can hide a real defect.",
+    "file": "tests/test_features.py",
+    "line": 51,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F34"
+  },
+  {
+    "check": "tested_but_not_called",
+    "category": "integration",
+    "severity": "Medium",
+    "title": "`exclude_incomplete_followup` is tested but never called by the platform",
+    "detail": "Function on line 45 is used only by the tests. Behaviour the tests check does not happen in the real pipeline.",
+    "recommendation": "Confirm whether the pipeline should call it; wire it in or remove it and its test.",
+    "file": "readmit/cohort.py",
+    "line": 45,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F35"
+  },
+  {
+    "check": "config_key_missing",
+    "category": "integration",
+    "severity": "Medium",
+    "title": "Code reads config key `C`, which the config does not define",
+    "detail": "Line 46 reads `C` with a fallback default, so any configured value is ignored silently. A code default is used; confirm it is intended.",
+    "recommendation": "Align the key name in code and config, and fail on unknown or missing keys.",
+    "file": "readmit/model.py",
+    "line": 46,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F36"
+  },
+  {
+    "check": "model_load_unverified",
+    "category": "execution_integrity",
+    "severity": "Low",
+    "title": "Model artefact loaded without an integrity check",
+    "detail": "`joblib.load` on line 105 loads a pickled object with no hash or version check.",
+    "recommendation": "Store a hash and the training commit with the model and verify both at load.",
+    "file": "readmit/model.py",
+    "line": 105,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F37"
+  },
+  {
+    "check": "no_lock_file",
+    "category": "dependency",
+    "severity": "Low",
+    "title": "No lock file with hashes",
+    "detail": "Transitive dependencies are not fixed, so two installs can differ even with exact top-level pins.",
+    "recommendation": "Add a lock file (pip-tools with --generate-hashes, uv or poetry).",
+    "file": "requirements.txt",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F38"
+  },
+  {
+    "check": "config_key_unused",
+    "category": "integration",
+    "severity": "Low",
+    "title": "Config key `features` is never read",
+    "detail": "A setting that no code reads usually means a renamed key or a dead option.",
+    "recommendation": "Remove it or wire it to the code that should use it.",
+    "file": "config.yaml",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F39"
+  },
+  {
+    "check": "config_key_unused",
+    "category": "integration",
+    "severity": "Low",
+    "title": "Config key `features.prior_admission_lookback_days` is never read",
+    "detail": "A setting that no code reads usually means a renamed key or a dead option.",
+    "recommendation": "Remove it or wire it to the code that should use it.",
+    "file": "config.yaml",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F40"
+  },
+  {
+    "check": "unreferenced_code",
+    "category": "integration",
+    "severity": "Low",
+    "title": "`extract_end_time` is defined but never used",
+    "detail": "Function on line 53 is not referenced anywhere in the repository, tests included.",
+    "recommendation": "Confirm whether the pipeline should call it; remove it or wire it in.",
+    "file": "readmit/cohort.py",
+    "line": 53,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F41"
+  },
+  {
+    "check": "unreferenced_code",
+    "category": "integration",
+    "severity": "Low",
+    "title": "`metrics_from_predictions` is defined but never used",
+    "detail": "Function on line 42 is not referenced anywhere in the repository, tests included.",
+    "recommendation": "Confirm whether the pipeline should call it; remove it or wire it in.",
+    "file": "readmit/evaluate.py",
+    "line": 42,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F42"
+  }
+]

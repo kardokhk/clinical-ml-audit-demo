@@ -1,0 +1,62 @@
+{
+  "run": "2026-11-17_posthoc",
+  "label": "post-hoc: checks changed after the sealed list was opened; not a held-out result",
+  "decisions": [
+    {
+      "id": "B01",
+      "adjudicated": false,
+      "reason": "Matched automatically to patient_overlap through the word 'patient'; that finding is evidence for B03. Future admissions counted in prior_admissions_365d are still not detected."
+    },
+    {
+      "id": "B03",
+      "adjudicated": true,
+      "reason": "F01 patient_overlap (940 of 1,197 test patients also in training)."
+    },
+    {
+      "id": "B11",
+      "adjudicated": true,
+      "reason": "F19 yaml imported in readmit/config.py and not declared (sealed list located it in requirements.txt)."
+    },
+    {
+      "id": "B16",
+      "adjudicated": true,
+      "reason": "F35 exclude_incomplete_followup is tested but never called by the platform (sealed list located it at the orchestrator)."
+    },
+    {
+      "id": "B12",
+      "adjudicated": false,
+      "reason": "An always-true test assertion is still not detected."
+    }
+  ],
+  "planted": 16,
+  "auto_detected": 12,
+  "adjudicated_detected": 14,
+  "adjudicated_ids": [
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B10",
+    "B11",
+    "B13",
+    "B14",
+    "B15",
+    "B16"
+  ],
+  "critical_high_planted": 9,
+  "critical_high_adjudicated": 8,
+  "missed": [
+    "B01",
+    "B12"
+  ],
+  "clean_twin_counts": {
+    "Critical": 0,
+    "High": 0,
+    "Medium": 13,
+    "Low": 2
+  }
+}

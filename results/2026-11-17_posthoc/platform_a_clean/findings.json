@@ -1,0 +1,393 @@
+[
+  {
+    "check": "test_without_assertion",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Test `test_valid_row_passes` has no assertion",
+    "detail": "Line 31: the test passes whenever the code does not crash.",
+    "recommendation": "Assert expected values from a known-answer case.",
+    "file": "tests/test_ingest.py",
+    "line": 31,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F01"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "No test imports `wardwatch.cli`",
+    "detail": "69 lines of code in wardwatch/cli.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "wardwatch/cli.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F02"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/cli.py",
+    "detail": "11 of 11 single-point changes to this file left every test passing, for example line 58 (Div -> Mult).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/cli.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/cli.py",
+          "line": 58,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 76,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 51,
+          "mutation": "2 -> 3",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 49,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 86,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 48,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 81,
+          "mutation": "Or -> And",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 51,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 78,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 35,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/cli.py",
+          "line": 36,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F03"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/features.py",
+    "detail": "1 of 2 single-point changes to this file left every test passing, for example line 13 (GtE -> Gt).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/features.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/features.py",
+          "line": 13,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F04"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/ingest.py",
+    "detail": "15 of 17 single-point changes to this file left every test passing, for example line 10 (4.0 -> 6.0).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/ingest.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 10,
+          "mutation": "4.0 -> 6.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 9,
+          "mutation": "20.0 -> 30.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 10,
+          "mutation": "60.0 -> 90.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 16,
+          "mutation": "0.1 -> 0.15000000000000002",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 67,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 16,
+          "mutation": "30.0 -> 45.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 17,
+          "mutation": "2000.0 -> 3000.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 47,
+          "mutation": "Gt -> GtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 65,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 13,
+          "mutation": "50.0 -> 75.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 47,
+          "mutation": "Lt -> LtE",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 18,
+          "mutation": "200.0 -> 300.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 12,
+          "mutation": "45.0 -> 67.5",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 11,
+          "mutation": "300.0 -> 450.0",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/ingest.py",
+          "line": 18,
+          "mutation": "0.1 -> 0.15000000000000002",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F05"
+  },
+  {
+    "check": "mutants_survive",
+    "category": "testing",
+    "severity": "Medium",
+    "title": "Tests do not notice changes to the logic in wardwatch/modeling.py",
+    "detail": "8 of 10 single-point changes to this file left every test passing, for example line 47 (Eq -> NotEq).",
+    "recommendation": "Add tests that pin the expected outputs of this module on known cases.",
+    "file": "wardwatch/modeling.py",
+    "line": null,
+    "evidence": {
+      "survivors": [
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 47,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 69,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 66,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 55,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 47,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 46,
+          "mutation": "GtE -> Gt",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 73,
+          "mutation": "Div -> Mult",
+          "killed": false,
+          "returncode": 0
+        },
+        {
+          "file": "wardwatch/modeling.py",
+          "line": 54,
+          "mutation": "Eq -> NotEq",
+          "killed": false,
+          "returncode": 0
+        }
+      ]
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F06"
+  },
+  {
+    "check": "silent_bad_input",
+    "category": "failure_handling",
+    "severity": "Low",
+    "title": "Bad input scored silently: missing lab values",
+    "detail": "The inference command exited normally and returned 798 scored records with no error or warning; 17 score(s) changed compared with the valid input.",
+    "recommendation": "Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
+    "file": null,
+    "line": null,
+    "evidence": {
+      "name": "missing_values",
+      "description": "missing lab values",
+      "outcome": "silent",
+      "returncode": 0,
+      "rows_out": 798,
+      "scores_changed": 17,
+      "expected": "reject or flag"
+    },
+    "kind": "dynamic",
+    "related_files": [],
+    "id": "F07"
+  },
+  {
+    "check": "no_lock_file",
+    "category": "dependency",
+    "severity": "Low",
+    "title": "No lock file with hashes",
+    "detail": "Transitive dependencies are not fixed, so two installs can differ even with exact top-level pins.",
+    "recommendation": "Add a lock file (pip-tools with --generate-hashes, uv or poetry).",
+    "file": "requirements.txt",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F08"
+  },
+  {
+    "check": "module_without_tests",
+    "category": "testing",
+    "severity": "Low",
+    "title": "No test imports `wardwatch.synth`",
+    "detail": "72 lines of code in wardwatch/synth.py have no direct test.",
+    "recommendation": "Add known-answer tests for the functions whose output reaches a prediction or a report.",
+    "file": "wardwatch/synth.py",
+    "line": null,
+    "evidence": {},
+    "kind": "static",
+    "related_files": [],
+    "id": "F09"
+  }
+]
