@@ -494,6 +494,20 @@ def check_inference(T: dict, base_sb: Path, work: Path, python: str, adapter_pat
                     f"{au_v:.3f} validated vs {au_s:.3f} served. The validated performance does not describe what is served."),
             recommendation="Use one preprocessing and feature path for training and inference, and add a test that compares them.",
             kind="dynamic", evidence=info["consistency"]))
+    rep = read_metrics(T, base_sb) or {}
+    if oc.get("alert_col") and oc["alert_col"] in valid.columns and rep.get("threshold") is not None:
+        thr = float(rep["threshold"])
+        expect = (valid["score"].astype(float) >= thr).astype(int)
+        n_bad = int((valid[oc["alert_col"]].astype(int) != expect).sum())
+        info["served_alerts_vs_reported_threshold"] = {"threshold": thr, "n": int(len(valid)), "disagree": n_bad}
+        if n_bad:
+            out.append(Finding(
+                check="served_threshold_mismatch", category="integration", severity="High",
+                title="Served alerts do not use the threshold that was evaluated",
+                detail=(f"{n_bad} of {len(valid)} records scored by the inference command have an alert flag that disagrees "
+                        f"with score >= {thr}, the threshold in the reported metrics. Patients flagged in use differ from the evaluated operating point."),
+                recommendation="Read the decision threshold from one versioned source in training, evaluation and serving, and test that they agree.",
+                kind="dynamic", evidence=info["served_alerts_vs_reported_threshold"]))
     for pert in icfg.get("perturbations", []):
         pdir = work / f"inference_{pert['name']}"
         shutil.rmtree(pdir, ignore_errors=True)
@@ -514,8 +528,10 @@ def check_inference(T: dict, base_sb: Path, work: Path, python: str, adapter_pat
             outcome = "rejected"
         elif res is None:
             outcome = "no output"
-        elif len(res) < len(valid) or mentioned or pert["op"] == "empty" and len(res) == 0:
+        elif len(res) < len(valid) or pert["op"] == "empty" and len(res) == 0:
             outcome = "flagged"
+        elif mentioned:
+            outcome = "warned but scored"
         else:
             outcome = "silent"
         changed = None
@@ -526,12 +542,14 @@ def check_inference(T: dict, base_sb: Path, work: Path, python: str, adapter_pat
                "returncode": r.returncode, "rows_out": None if res is None else int(len(res)),
                "scores_changed": changed, "expected": pert.get("expected", "reject or flag")}
         info["perturbations"].append(rec)
-        if outcome == "silent" and pert.get("expected", "reject or flag") != "score":
+        if outcome in ("silent", "warned but scored") and pert.get("expected", "reject or flag") != "score":
             sev = pert.get("severity_if_silent", "Critical")
             out.append(Finding(
                 check="silent_bad_input", category="failure_handling", severity=sev,
-                title=f"Bad input scored silently: {pert.get('description', pert['name'])}",
-                detail=(f"The inference command exited normally and returned {rec['rows_out']} scored records with no error or warning; "
+                title=(f"Bad input scored silently: {pert.get('description', pert['name'])}" if outcome == "silent"
+                       else f"Bad input scored after only a log warning: {pert.get('description', pert['name'])}"),
+                detail=(f"The inference command exited normally and returned {rec['rows_out']} scored records"
+                        f"{' with no error or warning' if outcome == 'silent' else ', logging a warning but still writing a score for every record'}; "
                         f"{changed} score(s) changed compared with the valid input."),
                 recommendation="Validate schema, types, units and ranges at the inference boundary; reject or flag the record.",
                 kind="dynamic", evidence=rec))

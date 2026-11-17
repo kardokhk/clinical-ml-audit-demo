@@ -27,7 +27,7 @@ temporal:
     - {path: data/labs.csv, id_col: admission_id, time_col: charttime}
 inference:
   adapter: adapters/wardwatch.py
-  output: {id_col: admission_id, score_col: risk_score}
+  output: {id_col: admission_id, score_col: risk_score, alert_col: alert}
   perturbations:
     - {name: fahrenheit, file: vitals.csv, column: temp_c, op: c_to_f, description: "temperature sent in Fahrenheit"}
     - {name: negative_heart_rate, file: vitals.csv, column: heart_rate, op: set, value: -40, rows: 50, description: "negative heart rate"}

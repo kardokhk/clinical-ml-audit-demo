@@ -124,3 +124,27 @@ def test_dependencies(tmp_path):
     assert ("undeclared_dependency", "yaml") in got
     assert ("unused_dependency", "requests") in got
     assert ("unpinned_dependency", "numpy") not in got
+
+
+def test_config_aliases_written_keys_and_renames(tmp_path):
+    cb = _cb(tmp_path, {"config.yaml": "paths:\n  raw: a\n  out: b\nmodel:\n  depth: 3\n  alert_threshold: 0.3\n", "m.py": """
+        def load(config):
+            config["_root"] = "."
+            return config["_root"]
+        def path(cfg, key):
+            return cfg["paths"][key]
+        def build(model_cfg):
+            return model_cfg["depth"], model_cfg.get("C", 1.0)
+        def serve(cfg):
+            return cfg["model"].get("threshold", 0.5)
+        """})
+    f = {(x.check, x.title.split("`")[1], x.severity) for x in static.check_config_keys(cb, ["config.yaml"])}
+    assert f == {("config_key_missing", "C", "Medium"), ("config_key_missing", "model.threshold", "High"),
+                 ("config_key_unused", "model.alert_threshold", "Low")}
+
+
+def test_tested_but_not_called(tmp_path):
+    cb = _cb(tmp_path, {"pkg/__init__.py": "", "pkg/a.py": "def used():\n    return 1\n\ndef only_tested():\n    return 2\n\nX = used()\n",
+                        "tests/test_a.py": "from pkg.a import only_tested\n\ndef test_x():\n    assert only_tested() == 2\n"})
+    f = static.check_dead_functions(cb)
+    assert [(x.check, x.line) for x in f] == [("tested_but_not_called", 4)]

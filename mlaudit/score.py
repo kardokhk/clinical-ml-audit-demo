@@ -29,6 +29,24 @@ def unlocated(f: dict, d: dict) -> bool:
     return f.get("kind") == "dynamic" and not f.get("file") and f["category"] == d["category"]
 
 
+HINTS = {
+    "patient_overlap": ("patient", "split"), "split_duplicate_ids": ("duplicate",),
+    "temporal_leakage": ("after", "future", "prediction time", "charted", "post"),
+    "temporal_sensitivity": ("after", "future", "prediction time"),
+    "train_serve_skew": ("inference", "serving", "served"),
+    "metrics_not_reproducible": ("metric",), "operating_point_mismatch": ("threshold", "sensitivity"),
+    "alert_threshold_mismatch": ("threshold",), "served_threshold_mismatch": ("threshold",),
+    "silent_bad_input": ("range", "clip", "silently", "invalid", "unit"),
+    "rerun_outputs_differ": ("random", "seed", "run"), "rerun_data_differs": ("random", "seed", "synthetic"),
+}
+
+
+def hint(f: dict, d: dict) -> bool:
+    words = HINTS.get(f.get("check", ""), ())
+    text = d.get("description", "").lower()
+    return any(w in text for w in words)
+
+
 def match(defects: list[dict], findings: list[dict], edge) -> dict[str, dict]:
     adj = {d["id"]: [i for i, f in enumerate(findings) if edge(f, d)] for d in defects}
     owner: dict[int, str] = {}
@@ -56,6 +74,12 @@ def score(defects: list[dict], findings: list[dict], baseline: list[dict]) -> di
     rest_d = [d for d in defects if d["id"] not in strict]
     rest_f = [f for f in findings if id(f) not in used]
     full = dict(strict)
+    # stage 2a: unlocated findings whose check matches words in the defect description; 2b: category only
+    hinted = match(rest_d, rest_f, lambda f, d: unlocated(f, d) and hint(f, d))
+    full.update(hinted)
+    used2 = {id(f) for f in hinted.values()}
+    rest_d = [d for d in rest_d if d["id"] not in hinted]
+    rest_f = [f for f in rest_f if id(f) not in used2]
     full.update(match(rest_d, rest_f, unlocated))
     base = match(defects, baseline, lambda f, d: located(f, d, use_category=False))
     rows = []

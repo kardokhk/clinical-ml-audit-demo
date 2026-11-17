@@ -27,7 +27,7 @@ temporal:
     - {path: data/raw/labs.csv, id_col: admission_id, time_col: charted_time}
 inference:
   adapter: adapters/readmit.py
-  output: {id_col: admission_id, score_col: y_prob}
+  output: {id_col: admission_id, score_col: y_prob, alert_col: y_pred}
   perturbations:
     - {name: fahrenheit, column: temperature_max_c, op: c_to_f, description: "temperature sent in Fahrenheit"}
     - {name: creatinine_umol, column: creatinine_last, op: scale, value: 88.4, description: "creatinine sent in umol/L instead of mg/dL"}

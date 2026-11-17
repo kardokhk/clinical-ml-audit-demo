@@ -430,6 +430,7 @@ def _config_chain(node: ast.AST, aliases: dict[str, str]):
 
 
 def config_reads(f: SourceFile) -> list[tuple[str, int, str, bool]]:
+    """Config reads as (path, line, kind, has_default). kind is subscript, get, write or wildcard."""
     reads = []
     for scope, _ in scopes(f.tree):
         if scope is f.tree:
@@ -442,10 +443,22 @@ def config_reads(f: SourceFile) -> list[tuple[str, int, str, bool]]:
                     aliases[node.targets[0].id] = ch[0]
         seen_inner = set()
         for node in ast.walk(scope):
+            # keys the code writes itself (cfg["_root"] = ...)
+            if isinstance(node, ast.Assign):
+                for t in node.targets:
+                    if isinstance(t, ast.Subscript):
+                        ch = _config_chain(t, aliases)
+                        if ch:
+                            reads.append((ch[0], node.lineno, "write", False))
+                            seen_inner.add(id(t))
+            # cfg["paths"][key] with a variable key: every key in that section counts as read
+            if isinstance(node, ast.Subscript) and not isinstance(node.slice, ast.Constant):
+                ch = _config_chain(node.value, aliases) if isinstance(node.value, ast.Subscript) else None
+                if ch:
+                    reads.append((ch[0], node.lineno, "wildcard", False))
             if isinstance(node, (ast.Subscript, ast.Call)) and id(node) not in seen_inner:
                 ch = _config_chain(node, aliases)
                 if ch:
-                    # mark inner subscripts of this chain as seen so only the full path is recorded
                     cur = node.func.value if isinstance(node, ast.Call) else node.value
                     while isinstance(cur, ast.Subscript):
                         seen_inner.add(id(cur))
@@ -454,35 +467,60 @@ def config_reads(f: SourceFile) -> list[tuple[str, int, str, bool]]:
     return reads
 
 
+def _resolve(path: str, keys: set[str]) -> str | None:
+    """Exact key, or the single defined key that ends with this path (a section passed under another name)."""
+    if path in keys:
+        return path
+    cands = [k for k in keys if k.endswith("." + path)]
+    return cands[0] if len(cands) == 1 else None
+
+
 def check_config_keys(cb: Codebase, cfg_files: list[str]) -> list[Finding]:
     keys = config_keys(cb.root, cfg_files)
     if not keys:
         return []
+    reads = [(f, *r) for f in cb.source for r in config_reads(f)]
+    written = {path for _, path, _, kind, _ in reads if kind == "write"}
+    used: set[str] = set()
+    pending = []
+    for f, path, line, kind, has_default in reads:
+        if kind == "write":
+            continue
+        if kind == "wildcard":
+            used |= {k for k in keys if k.startswith(path + ".")} | {path}
+            continue
+        hit = _resolve(path, keys)
+        if hit:
+            used.add(hit)
+            parts = hit.split(".")
+            used |= {".".join(parts[:i]) for i in range(1, len(parts))}
+        elif path not in written and not path.split(".")[-1].startswith("_"):
+            pending.append((f, path, line, kind, has_default))
+    unused = {k for k in keys - used if not any(u.startswith(k + ".") for u in used)}
     out = []
-    used = set()
-    for f in cb.source:
-        for path, line, kind, has_default in config_reads(f):
-            used.add(path)
-            parts = path.split(".")
-            for i in range(1, len(parts)):
-                used.add(".".join(parts[:i]))
-            if path not in keys:
-                silent = kind == "get"
-                out.append(Finding(
-                    check="config_key_missing", category="integration", severity="High",
-                    title=f"Code reads config key `{path}`, which the config does not define",
-                    detail=(f"Line {line} reads `{path}`" + (" with a fallback default, so the configured value is ignored silently."
-                                                            if has_default else ("; the read returns None silently." if silent else "; the run fails with KeyError."))),
-                    recommendation="Align the key name in code and config, and fail on unknown or missing keys.",
-                    file=f.rel, line=line))
-    for k in sorted(keys - used):
-        if not any(u.startswith(k + ".") for u in used):
-            out.append(Finding(
-                check="config_key_unused", category="integration", severity="Low",
-                title=f"Config key `{k}` is never read",
-                detail="A setting that no code reads usually means a renamed key or a dead option.",
-                recommendation="Remove it or wire it to the code that should use it.",
-                file=cfg_files[0] if cfg_files else None))
+    for f, path, line, kind, has_default in pending:
+        section = path.rsplit(".", 1)[0] if "." in path else ""
+        siblings = sorted(k for k in unused if (k.rsplit(".", 1)[0] if "." in k else "") == section and "." in k) if section else []
+        if siblings:
+            sev, extra = "High", f" The same section defines `{'`, `'.join(siblings)}`, which no code reads: probably a renamed key."
+        elif has_default:
+            sev, extra = "Medium", " A code default is used; confirm it is intended."
+        else:
+            sev, extra = "High", ""
+        out.append(Finding(
+            check="config_key_missing", category="integration", severity=sev,
+            title=f"Code reads config key `{path}`, which the config does not define",
+            detail=(f"Line {line} reads `{path}`" + (" with a fallback default, so any configured value is ignored silently."
+                                                    if has_default else ("; the read returns None silently." if kind == "get" else "; the run fails with KeyError.")) + extra),
+            recommendation="Align the key name in code and config, and fail on unknown or missing keys.",
+            file=f.rel, line=line))
+    for k in sorted(unused):
+        out.append(Finding(
+            check="config_key_unused", category="integration", severity="Low",
+            title=f"Config key `{k}` is never read",
+            detail="A setting that no code reads usually means a renamed key or a dead option.",
+            recommendation="Remove it or wire it to the code that should use it.",
+            file=cfg_files[0] if cfg_files else None))
     return out
 
 
@@ -504,8 +542,22 @@ def check_dead_functions(cb: Codebase) -> list[Finding]:
                 names_used[node.name.split(".")[-1]] = names_used.get(node.name.split(".")[-1], 0) + 1
             elif isinstance(node, ast.Constant) and isinstance(node.value, str) and node.value.isidentifier():
                 names_used[node.value] = names_used.get(node.value, 0) + 1
+    src_used: dict[str, int] = {}
+    for f in cb.source:
+        for node in ast.walk(f.tree):
+            nm = node.id if isinstance(node, ast.Name) else node.attr if isinstance(node, ast.Attribute) else None
+            if nm:
+                src_used[nm] = src_used.get(nm, 0) + 1
     out = []
     for f, node in defs:
+        if names_used.get(node.name, 0) > 0 and src_used.get(node.name, 0) == 0 and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            out.append(Finding(
+                check="tested_but_not_called", category="integration", severity="Medium",
+                title=f"`{node.name}` is tested but never called by the platform",
+                detail=f"Function on line {node.lineno} is used only by the tests. Behaviour the tests check does not happen in the real pipeline.",
+                recommendation="Confirm whether the pipeline should call it; wire it in or remove it and its test.",
+                file=f.rel, line=node.lineno))
+            continue
         if names_used.get(node.name, 0) == 0:
             out.append(Finding(
                 check="unreferenced_code", category="integration", severity="Low",
