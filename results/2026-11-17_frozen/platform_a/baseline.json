@@ -1,0 +1,41 @@
+[
+  {
+    "check": "ruff:BLE001",
+    "category": "baseline",
+    "severity": "Low",
+    "title": "Do not catch blind exception: `Exception`",
+    "detail": "",
+    "recommendation": "",
+    "file": "wardwatch/cli.py",
+    "line": 69,
+    "evidence": {},
+    "kind": "baseline",
+    "related_files": []
+  },
+  {
+    "check": "ruff:RUF059",
+    "category": "baseline",
+    "severity": "Low",
+    "title": "Unpacked variable `train_idx` is never used",
+    "detail": "",
+    "recommendation": "",
+    "file": "wardwatch/modeling.py",
+    "line": 21,
+    "evidence": {},
+    "kind": "baseline",
+    "related_files": []
+  },
+  {
+    "check": "ruff:RUF046",
+    "category": "baseline",
+    "severity": "Low",
+    "title": "Value being cast to `int` is already an integer",
+    "detail": "",
+    "recommendation": "",
+    "file": "wardwatch/modeling.py",
+    "line": 55,
+    "evidence": {},
+    "kind": "baseline",
+    "related_files": []
+  }
+]

@@ -1,0 +1,731 @@
+{
+  "target": "platform_a",
+  "root": "../stand_in/platform_a",
+  "versions": {
+    "python": "3.11.18",
+    "numpy": "2.4.6",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "PyYAML": "6.0.3",
+    "joblib": "1.6.0",
+    "pytest": "9.2.0",
+    "coverage": "7.17.3",
+    "ruff": "0.17.5",
+    "bandit": "1.9.4"
+  },
+  "inventory": {
+    "files": [
+      {
+        "file": "tests/conftest.py",
+        "is_test": true,
+        "code_lines": 3,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_features.py",
+        "is_test": true,
+        "code_lines": 24,
+        "functions": 3,
+        "classes": 0,
+        "test_functions": 2,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_ingest.py",
+        "is_test": true,
+        "code_lines": 22,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 4,
+        "entry_point": false
+      },
+      {
+        "file": "tests/test_modeling.py",
+        "is_test": true,
+        "code_lines": 11,
+        "functions": 2,
+        "classes": 0,
+        "test_functions": 2,
+        "entry_point": false
+      },
+      {
+        "file": "wardwatch/__init__.py",
+        "is_test": false,
+        "code_lines": 2,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "wardwatch/__main__.py",
+        "is_test": false,
+        "code_lines": 2,
+        "functions": 0,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": true
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "is_test": false,
+        "code_lines": 81,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": true
+      },
+      {
+        "file": "wardwatch/features.py",
+        "is_test": false,
+        "code_lines": 42,
+        "functions": 5,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "is_test": false,
+        "code_lines": 62,
+        "functions": 5,
+        "classes": 1,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "is_test": false,
+        "code_lines": 64,
+        "functions": 8,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      },
+      {
+        "file": "wardwatch/synth.py",
+        "is_test": false,
+        "code_lines": 72,
+        "functions": 1,
+        "classes": 0,
+        "test_functions": 0,
+        "entry_point": false
+      }
+    ],
+    "source_files": 7,
+    "source_lines": 325,
+    "test_files": 4,
+    "test_lines": 60,
+    "test_functions": 8,
+    "entry_points": [
+      "wardwatch/__main__.py",
+      "wardwatch/cli.py"
+    ],
+    "config_files": [
+      "config.yaml"
+    ],
+    "import_edges": [
+      [
+        "wardwatch.__main__",
+        "wardwatch.cli"
+      ],
+      [
+        "wardwatch.cli",
+        "wardwatch"
+      ],
+      [
+        "wardwatch.cli",
+        "wardwatch.features"
+      ],
+      [
+        "wardwatch.cli",
+        "wardwatch.ingest"
+      ],
+      [
+        "wardwatch.cli",
+        "wardwatch.modeling"
+      ],
+      [
+        "wardwatch.cli",
+        "wardwatch.synth"
+      ],
+      [
+        "wardwatch.modeling",
+        "wardwatch.features"
+      ]
+    ],
+    "parse_errors": []
+  },
+  "dependencies": {
+    "declaration_files": [
+      "requirements.txt"
+    ],
+    "lock_files": [],
+    "requirements": [
+      {
+        "name": "numpy",
+        "spec": "==2.4.6",
+        "file": "requirements.txt",
+        "line": 1,
+        "hashed": false
+      },
+      {
+        "name": "pandas",
+        "spec": ">=2.0",
+        "file": "requirements.txt",
+        "line": 2,
+        "hashed": false
+      },
+      {
+        "name": "scikit-learn",
+        "spec": "",
+        "file": "requirements.txt",
+        "line": 3,
+        "hashed": false
+      },
+      {
+        "name": "joblib",
+        "spec": "==1.6.0",
+        "file": "requirements.txt",
+        "line": 4,
+        "hashed": false
+      }
+    ],
+    "third_party_imports": [
+      "joblib",
+      "numpy",
+      "pandas",
+      "sklearn",
+      "yaml"
+    ]
+  },
+  "vulnerabilities": {
+    "scanned": [
+      "numpy==2.4.6",
+      "joblib==1.6.0"
+    ],
+    "not_scanned_unpinned": [
+      "pandas",
+      "scikit-learn"
+    ],
+    "date": "2026-11-17",
+    "tool": "pip-audit (PyPI/OSV advisory data)",
+    "status": "run",
+    "vulnerable_packages": 0
+  },
+  "runs": [
+    {
+      "name": "run1:generate",
+      "command": "python -m wardwatch generate --config config.yaml",
+      "returncode": 0,
+      "seconds": 8.2,
+      "stderr_tail": []
+    },
+    {
+      "name": "run1:pipeline",
+      "command": "python -m wardwatch train --config config.yaml",
+      "returncode": 0,
+      "seconds": 2.1,
+      "stderr_tail": []
+    },
+    {
+      "name": "run2:generate",
+      "command": "python -m wardwatch generate --config config.yaml",
+      "returncode": 0,
+      "seconds": 7.8,
+      "stderr_tail": []
+    },
+    {
+      "name": "run2:pipeline",
+      "command": "python -m wardwatch train --config config.yaml",
+      "returncode": 0,
+      "seconds": 1.9,
+      "stderr_tail": []
+    }
+  ],
+  "split": {
+    "n_train": 2436,
+    "n_test": 812,
+    "n_groups": 1500,
+    "groups_in_both": 484
+  },
+  "metrics": {
+    "reported": {
+      "auroc": 0.9999679196859903,
+      "auprc": 0.9997701708847069,
+      "brier": 0.0003078663604636863,
+      "sensitivity": 0.9972826086956522,
+      "specificity": 1.0,
+      "n": 3248,
+      "threshold": 0.5
+    },
+    "recomputed": {
+      "auroc": 0.9999230532471529,
+      "auprc": 0.9994152046783624,
+      "brier": 0.001231433455237171,
+      "n": 812,
+      "events": 90,
+      "sensitivity_from_alerts": 0.9888888888888889,
+      "specificity_from_alerts": 1.0,
+      "sensitivity_at_threshold": 0.9888888888888889,
+      "specificity_at_threshold": 1.0
+    },
+    "pred_not_in_test": 0,
+    "test_not_in_pred": 0,
+    "alerts_inconsistent_with_reported_threshold": 0
+  },
+  "rerun": {
+    "hash_seeds": [
+      "0",
+      "1"
+    ],
+    "files": {
+      "data/": true,
+      "outputs/split.csv": true,
+      "outputs/test_predictions.csv": false,
+      "outputs/metrics.json": false
+    },
+    "pred_rows_compared": 812,
+    "pred_rows_changed": 233,
+    "max_abs_score_change": 2.6100400505435495e-05,
+    "auroc_run1": 0.9999679196859903,
+    "auroc_run2": 0.9999679196859903
+  },
+  "temporal": {
+    "removed": {
+      "data/vitals.csv": {
+        "rows": 125531,
+        "after_prediction_time": 118308
+      },
+      "data/labs.csv": {
+        "rows": 9474,
+        "after_prediction_time": 6226
+      }
+    },
+    "run": {
+      "name": "truncated:pipeline",
+      "command": "python -m wardwatch train --config config.yaml",
+      "returncode": 0,
+      "seconds": 1.8,
+      "stderr_tail": []
+    },
+    "comparison": {
+      "n_common": 812,
+      "auroc_a": 0.9999230532471529,
+      "auroc_b": 0.7795629424438288,
+      "diff": 0.22036011080332407,
+      "ci95": [
+        0.17242148933571375,
+        0.27794094180552675
+      ],
+      "n_boot": 2000,
+      "n_groups": 649,
+      "test_scores_changed": 812
+    }
+  },
+  "inference": {
+    "perturbations": [
+      {
+        "name": "fahrenheit",
+        "description": "temperature sent in Fahrenheit",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 812,
+        "scores_changed": 0,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "negative_heart_rate",
+        "description": "negative heart rate",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 812,
+        "scores_changed": 0,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "text_in_lab",
+        "description": "text in a numeric lab field",
+        "outcome": "rejected",
+        "returncode": 1,
+        "rows_out": null,
+        "scores_changed": null,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "missing_column",
+        "description": "required column missing",
+        "outcome": "rejected",
+        "returncode": 1,
+        "rows_out": null,
+        "scores_changed": null,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "creatinine_mg_dl",
+        "description": "creatinine sent in mg/dL instead of umol/L",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 812,
+        "scores_changed": 0,
+        "expected": "reject or flag"
+      },
+      {
+        "name": "missing_values",
+        "description": "missing lab values",
+        "outcome": "silent",
+        "returncode": 0,
+        "rows_out": 812,
+        "scores_changed": 0,
+        "expected": "reject or flag"
+      }
+    ],
+    "consistency": {
+      "n_compared": 812,
+      "n_differ": 183,
+      "max_abs_diff": 0.9999584526289007,
+      "missing_from_served": 0,
+      "auroc_validated": 0.9999230532471529,
+      "auroc_served": 0.558887349953832
+    }
+  },
+  "tests": {
+    "run": {
+      "name": "tests",
+      "command": "python -m coverage run --source=wardwatch -m pytest -q -p no:cacheprovider -rs",
+      "returncode": 0,
+      "seconds": 4.1,
+      "stderr_tail": []
+    },
+    "summary": {
+      "passed": 9,
+      "skipped": 1
+    },
+    "coverage": {
+      "total": 34.66135458167331,
+      "files": {
+        "wardwatch/__init__.py": 100.0,
+        "wardwatch/__main__.py": 0.0,
+        "wardwatch/cli.py": 0.0,
+        "wardwatch/features.py": 100.0,
+        "wardwatch/ingest.py": 55.26315789473684,
+        "wardwatch/modeling.py": 62.5,
+        "wardwatch/synth.py": 0.0
+      }
+    }
+  },
+  "mutation": {
+    "candidates": 54,
+    "run": 40,
+    "killed": 3,
+    "score": 0.075,
+    "seed": 20261117,
+    "mutants": [
+      {
+        "file": "wardwatch/cli.py",
+        "line": 52,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 88,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/features.py",
+        "line": 41,
+        "mutation": "Sub -> Add",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 93,
+        "mutation": "Or -> And",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 57,
+        "mutation": "2 -> 3",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 9,
+        "mutation": "250.0 -> 375.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 67,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 46,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 10,
+        "mutation": "4.0 -> 6.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 13,
+        "mutation": "100.0 -> 150.0",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 45,
+        "mutation": "0.5 -> 0.75",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 98,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 75,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 65,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 72,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 16,
+        "mutation": "0.1 -> 0.15000000000000002",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 39,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 17,
+        "mutation": "10.0 -> 15.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 11,
+        "mutation": "300.0 -> 450.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 47,
+        "mutation": "Gt -> GtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 75,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 40,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 79,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 46,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 18,
+        "mutation": "0.1 -> 0.15000000000000002",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/features.py",
+        "line": 42,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 45,
+        "mutation": "GtE -> Gt",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 13,
+        "mutation": "50.0 -> 75.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 53,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 16,
+        "mutation": "30.0 -> 45.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 47,
+        "mutation": "Lt -> LtE",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 12,
+        "mutation": "30.0 -> 45.0",
+        "killed": true,
+        "returncode": 1
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 66,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 12,
+        "mutation": "45.0 -> 67.5",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 11,
+        "mutation": "40.0 -> 60.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/cli.py",
+        "line": 90,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 80,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 53,
+        "mutation": "Div -> Mult",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/ingest.py",
+        "line": 18,
+        "mutation": "200.0 -> 300.0",
+        "killed": false,
+        "returncode": 0
+      },
+      {
+        "file": "wardwatch/modeling.py",
+        "line": 53,
+        "mutation": "Eq -> NotEq",
+        "killed": false,
+        "returncode": 0
+      }
+    ]
+  },
+  "baseline": {
+    "ruff_findings": 3,
+    "bandit_findings": 0,
+    "ruff_rc": 0,
+    "bandit_rc": 0
+  },
+  "integrity": {
+    "files_before": 14,
+    "files_after": 14,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "unchanged": true
+  },
+  "seconds": 128.9,
+  "finding_counts": {
+    "Critical": 6,
+    "High": 9,
+    "Medium": 13,
+    "Low": 5
+  },
+  "n_findings": 33
+}

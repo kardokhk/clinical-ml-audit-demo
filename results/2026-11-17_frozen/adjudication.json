@@ -1,0 +1,98 @@
+{
+  "run": "2026-11-17_frozen",
+  "frozen_commit": "2f8a7842e800fe394527d3483c620e141cab730b",
+  "method": "Each automatic match and each miss was checked by reading the finding's evidence against the defect description, after the sealed list was opened.",
+  "decisions": [
+    {
+      "id": "B01",
+      "auto": "unlocated_dynamic (temporal_leakage)",
+      "adjudicated": false,
+      "reason": "The post-prediction-time probe removed lab records only; it says nothing about future admissions counted in prior_admissions_365d. No finding points at this defect."
+    },
+    {
+      "id": "B02",
+      "auto": "unlocated_dynamic (patient_overlap)",
+      "adjudicated": true,
+      "reason": "Wrong pairing by the matcher. The real evidence is F02 temporal_leakage: deleting labs charted after discharge lowered test AUROC from 0.832 to 0.798 (95% CI of the drop 0.022 to 0.046)."
+    },
+    {
+      "id": "B03",
+      "auto": "missed",
+      "adjudicated": true,
+      "reason": "F01 patient_overlap: 940 of 1,197 test patients also appear in training. The matcher had given that finding to B02."
+    },
+    {
+      "id": "B04",
+      "auto": "unlocated_dynamic (metrics_not_reproducible)",
+      "adjudicated": true,
+      "reason": "F08: reported n 6,876 vs 1,719 rows in the predictions file; AUROC reported 0.878 vs 0.832 recomputed."
+    },
+    {
+      "id": "B05",
+      "auto": "unlocated_dynamic (train_serve_skew)",
+      "adjudicated": true,
+      "reason": "F03: 649 of 1,719 test scores differ between the validated pipeline and the inference command, consistent with missing labs filled with 0 at inference."
+    },
+    {
+      "id": "B07",
+      "auto": "unlocated_dynamic (silent_bad_input)",
+      "adjudicated": true,
+      "reason": "F04 to F07: Fahrenheit, umol/L, g/L and negative ages scored without error, which is the clipping behaviour."
+    },
+    {
+      "id": "B11",
+      "auto": "missed (location convention)",
+      "adjudicated": true,
+      "reason": "F15 reports yaml imported in readmit/config.py line 5 and not declared; the sealed list located the same defect in requirements.txt."
+    },
+    {
+      "id": "B12",
+      "auto": "missed",
+      "adjudicated": false,
+      "reason": "A test assertion that is always true is not caught by any check; the mutation sample did not single it out."
+    },
+    {
+      "id": "B14",
+      "auto": "missed",
+      "adjudicated": false,
+      "reason": "The inference service reads 'threshold' from the model card with a 0.5 default. No check compared served alerts with the documented 0.35 threshold."
+    },
+    {
+      "id": "B16",
+      "auto": "missed",
+      "adjudicated": false,
+      "reason": "The follow-up exclusion function is called only from a unit test, so the unreferenced-code check did not flag it."
+    }
+  ],
+  "clean_twin_false_alarms": "All 7 High findings on platform_b_clean come from the config-key check: it did not resolve a config section passed into a function under another name (model_cfg) and it treated a key written by the code itself (_root) as missing.",
+  "planted": 16,
+  "auto_detected": 11,
+  "adjudicated_detected": 12,
+  "adjudicated_ids": [
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B10",
+    "B11",
+    "B13",
+    "B15"
+  ],
+  "critical_high_planted": 9,
+  "critical_high_adjudicated": 7,
+  "missed": [
+    "B01",
+    "B12",
+    "B14",
+    "B16"
+  ],
+  "platform_a": {
+    "auto_detected": 15,
+    "adjudicated_detected": 15,
+    "note": "Unlocated matches A02, A04, A05 were checked: temporal_leakage, train_serve_skew and metrics_not_reproducible each exist for them."
+  }
+}
